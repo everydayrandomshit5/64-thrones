@@ -8,34 +8,64 @@
 label run_dawn_chapter_battle(chap_idx):
     $ chapters_db = load_campaign_json()
     $ roster_db = load_roster_json()
+    $ banter_db = load_banter_json()
     $ chap_data = chapters_db["dawn_campaign"][chap_idx - 1]
 
-    # 1. War Tent Tactical Hub (2 AP)
+    # 1. War Tent Tactical Hub (2 AP) with Pavilion Fellowship Scene Loop
     $ current_camp.start_camp_session(chap_idx)
     $ tent_state = WarTentUI(current_camp, chap_data, roster_db)
-    call screen war_tent_hub(tent_state)
+    label .dawn_camp_loop:
+        call screen war_tent_hub(tent_state)
+        $ camp_ret = _return
+        if camp_ret == "counsel_scene" and tent_state.last_counseled_char:
+            call dawn_camp_fellowship_dialogue(tent_state.last_counseled_char, tent_state.last_counseled_rank)
+            jump .dawn_camp_loop
 
-    # 2. Thronefield Chess Match
+    # Eve of Chapter 8: Check for Fellowship Rank 4 Champion's Oath CG after Camp!
+    if chap_idx == 8:
+        call dawn_check_rank4_oath
+
+    # 2. Thronefield Chess Match (with Defeat / Regroup Retry Guard)
     $ aether_bonuses = current_camp.get_battle_aether_bonuses()
     $ current_camp.consume_recon_buff()
+    $ init_ward = chess.A1 if chap_idx == 6 else None
 
-    $ current_session = MatchSession(
-        player_faction="dawn",
-        boss_profile_id=chap_data["boss_profile"],
-        initial_fen=chap_data["initial_fen"],
-        starting_aether=aether_bonuses[1],
-        max_aether=aether_bonuses[0]
-    )
-    $ current_session.concord_points = persistent.concord_points
-    $ current_detector = EventDetector(
-        player_char_id=chap_data["player_char"],
-        boss_char_id=chap_data["boss_char"],
-        player_faction="dawn"
-    )
+    label .dawn_battle_attempt:
+        $ current_session = MatchSession(
+            player_faction="dawn",
+            boss_profile_id=chap_data["boss_profile"],
+            initial_fen=chap_data["initial_fen"],
+            starting_aether=aether_bonuses[1],
+            max_aether=aether_bonuses[0],
+            initial_warded_square=init_ward
+        )
+        $ current_session.concord_points = persistent.concord_points
+        $ current_detector = EventDetector(
+            player_char_id=chap_data["player_char"],
+            boss_char_id=chap_data["boss_char"],
+            player_faction="dawn"
+        )
 
-    $ tf_ui = ThronefieldUI(current_session, current_detector, chap_data)
-    call screen thronefield(tf_ui)
-    $ last_match_outcome = _return
+        $ tf_ui = ThronefieldUI(current_session, current_detector, chap_data, camp=current_camp, banter=banter_db)
+        call screen thronefield(tf_ui)
+        $ last_match_outcome = _return
+        $ chapter_obj_met = current_session.evaluate_chapter_objective(chap_idx)
+        $ session_snapshot = current_session.to_dict()
+        $ camp_snapshot = current_camp.to_dict()
+        $ current_session = None
+        $ current_detector = None
+
+        $ match_won = (last_match_outcome and last_match_outcome.get("winner") == "player")
+        $ draw_obj_ok = (chap_idx in (3, 7) and last_match_outcome and last_match_outcome.get("winner") == "draw" and chapter_obj_met)
+        if not (match_won or draw_obj_ok):
+            scene bg_thronefield_dawn with dissolve
+            show expression "characters/dawn_queen/state_b_worn.png" as dawn_queen at center with dissolve
+            lysandra "Our line has fractured... Sound the retreat to camp before The Quiet takes us all! Regroup and strike again, Commander!"
+            hide dawn_queen
+            menu:
+                "The Thronefield clash ended without victory:"
+                "Regroup and Retry This Thronefield Match":
+                    jump .dawn_battle_attempt
     return
 
 ## ============================================================================
@@ -45,8 +75,8 @@ label run_dawn_chapter_battle(chap_idx):
 label dawn_ch1_start:
     $ current_chapter_idx = 1
     scene bg_thronefield_dawn with fade
-    show image "characters/dawn_queen/state_a_battle.png" at left
-    show image "characters/dawn_pawn_lead/state_a_battle.png" at right
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at left
+    show expression "characters/dawn_pawn_lead/state_a_battle.png" as dawn_pawn_lead at right
     with dissolve
 
     narrator "Chapter 1: First Light on the Stone — The Eastern Ridge of the Thronefield."
@@ -54,12 +84,12 @@ label dawn_ch1_start:
     tamsin "General Lysandra, Commander! The First File is formed and ready. My buckler is strapped tight—we won't yield a single slab!"
     lysandra "Well spoken, Tamsin. Commander, let us convene in the War Tent before taking the field against Nyssara's vanguard."
 
-    hide image "characters/dawn_queen/state_a_battle.png"
-    hide image "characters/dawn_pawn_lead/state_a_battle.png"
+    hide dawn_queen
+    hide dawn_pawn_lead
     call run_dawn_chapter_battle(1)
 
     scene bg_thronefield_dawn with dissolve
-    show image "characters/dawn_queen/state_a_battle.png" at center with dissolve
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at center with dissolve
     lysandra "Their reckless vanguard line is broken! Several young Umbrenholt conscripts are trapped along the fourth rank before The Quiet claims them."
     menu:
         "How do you handle the routed Umbrenholt vanguard?"
@@ -73,8 +103,8 @@ label dawn_ch1_start:
 label dawn_ch2_start:
     $ current_chapter_idx = 2
     scene bg_thronefield_dawn with fade
-    show image "characters/dawn_knight/state_a_battle.png" at left
-    show image "characters/dawn_queen/state_a_battle.png" at right
+    show expression "characters/dawn_knight/state_a_battle.png" as dawn_knight at left
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at right
     with dissolve
 
     narrator "Chapter 2: Wings in the Updraft — High Aerie Recon Post."
@@ -82,12 +112,12 @@ label dawn_ch2_start:
     kestrel "More than that... I spotted an old Solhaven sky-knight beacon wedged in the fissure—just like the one my sibling carried before vanishing."
     lysandra "Keep your heart steady, Captain Rowan. We will break Kaelen's cavalry forks and recover that beacon together."
 
-    hide image "characters/dawn_knight/state_a_battle.png"
-    hide image "characters/dawn_queen/state_a_battle.png"
+    hide dawn_knight
+    hide dawn_queen
     call run_dawn_chapter_battle(2)
 
     scene bg_thronefield_dawn with dissolve
-    show image "characters/dawn_knight/state_a_battle.png" at center with dissolve
+    show expression "characters/dawn_knight/state_a_battle.png" as dawn_knight at center with dissolve
     kestrel "Ha! Skyfall takes the skies! And look—we recovered the scout cipher from the chasm rim, alongside one of Kaelen's wounded outriders."
     menu:
         "How do you proceed with the border cipher and outrider?"
@@ -101,8 +131,8 @@ label dawn_ch2_start:
 label dawn_ch3_start:
     $ current_chapter_idx = 3
     scene bg_thronefield_dawn with fade
-    show image "characters/dawn_rook/state_a_battle.png" at left
-    show image "characters/dawn_pawn_lead/state_a_battle.png" at right
+    show expression "characters/dawn_rook/state_a_battle.png" as dawn_rook at left
+    show expression "characters/dawn_pawn_lead/state_a_battle.png" as dawn_pawn_lead at right
     with dissolve
 
     narrator "Chapter 3: The Bastion of Dawn — The Central Monolith Defile."
@@ -110,12 +140,12 @@ label dawn_ch3_start:
     tamsin "Uncle Brannoch, the kinetic tremors from his gravity warhammer are shaking the stone!"
     brannoch "Let the mountain fall if it must, Tamsin—the Alabaster Bastion does not move! Commander, direct our defensive vectors."
 
-    hide image "characters/dawn_rook/state_a_battle.png"
-    hide image "characters/dawn_pawn_lead/state_a_battle.png"
+    hide dawn_rook
+    hide dawn_pawn_lead
     call run_dawn_chapter_battle(3)
 
     scene bg_thronefield_dawn with dissolve
-    show image "characters/dawn_rook/state_a_battle.png" at center with dissolve
+    show expression "characters/dawn_rook/state_a_battle.png" as dawn_rook at center with dissolve
     brannoch "Dravok's iron line is repelled! The old veteran saluted our shield-wall before withdrawing his battered levies."
     menu:
         "How do you answer Warden Dravok's withdrawal?"
@@ -129,20 +159,20 @@ label dawn_ch3_start:
 label dawn_ch4_start:
     $ current_chapter_idx = 4
     scene bg_prism_observatory with fade
-    show image "characters/dawn_bishop/state_a_battle.png" at left
-    show image "characters/dawn_queen/state_a_battle.png" at right
+    show expression "characters/dawn_bishop/state_a_battle.png" as dawn_bishop at left
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at right
     with dissolve
 
     narrator "Chapter 4: The Prism Observatory — The Starlit Spire above the Rift."
     ilyara "Commander... feel the Aether currents here. My skin burns with their resonance. The Arbiter Automaton has no living soul-thread—it is running on a corrupted loop!"
     lysandra "Moonweaver Veyra's umbral lanterns are already refracting across the diagonal lenses. Protect High Seeress Ilyara while she records the glyph cipher!"
 
-    hide image "characters/dawn_bishop/state_a_battle.png"
-    hide image "characters/dawn_queen/state_a_battle.png"
+    hide dawn_bishop
+    hide dawn_queen
     call run_dawn_chapter_battle(4)
 
     scene bg_prism_observatory with dissolve
-    show image "characters/dawn_bishop/state_a_battle.png" at center with dissolve
+    show expression "characters/dawn_bishop/state_a_battle.png" as dawn_bishop at center with dissolve
     ilyara "The prism lenses hold! Look at the refracted starlight, Commander—the Champions drawn into The Quiet aren't resting peacefully. Their vitality is draining into The Hollow!"
     menu:
         "What do you do with the Prism Observatory's astral optics?"
@@ -160,20 +190,20 @@ label dawn_ch4_start:
 label dawn_ch5_start:
     $ current_chapter_idx = 5
     scene bg_sunken_foundry with fade
-    show image "characters/dawn_pawn_lead/state_a_battle.png" at left
-    show image "characters/dawn_queen/state_a_battle.png" at right
+    show expression "characters/dawn_pawn_lead/state_a_battle.png" as dawn_pawn_lead at left
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at right
     with dissolve
 
     narrator "Chapter 5: The Sunken Foundry — The Submerged Mythril Vaults."
     tamsin "The water is ankle-deep over the runic tiles, Commander, and Vanguard Scribe Sorrel's raiders are scouring the drowned archive!"
     lysandra "They are searching for the original First Concord plates. Hold the line, Tamsin—if you reach the eighth rank, the Solar Ascension is yours!"
 
-    hide image "characters/dawn_pawn_lead/state_a_battle.png"
-    hide image "characters/dawn_queen/state_a_battle.png"
+    hide dawn_pawn_lead
+    hide dawn_queen
     call run_dawn_chapter_battle(5)
 
     scene bg_sunken_foundry with dissolve
-    show image "characters/dawn_pawn_lead/state_a_battle.png" at center with dissolve
+    show expression "characters/dawn_pawn_lead/state_a_battle.png" as dawn_pawn_lead at center with dissolve
     tamsin "We secured the mythril tablet! And Sorrel dropped a waterproof scroll case during her retreat—it shows the Arbiter's clauses were altered centuries ago!"
     menu:
         "How do you handle the Sunken Foundry aftermath?"
@@ -187,8 +217,8 @@ label dawn_ch5_start:
 label dawn_ch6_start:
     $ current_chapter_idx = 6
     scene bg_quarters_dawn with fade
-    show image "characters/dawn_king/state_c_camp.png" at left
-    show image "characters/dawn_queen/state_c_camp.png" at right
+    show expression "characters/dawn_king/state_c_camp.png" as dawn_king at left
+    show expression "characters/dawn_queen/state_c_camp.png" as dawn_queen at right
     with dissolve
 
     narrator "Chapter 6: The Sovereign's Oath — The Royal Pavilion at Midnight."
@@ -196,12 +226,12 @@ label dawn_ch6_start:
     aurelian "Now Emperor Malachar marches his regicide assassins toward my throne, believing Solhaven broke the seal at Ashgate. We must survive his onslaught and force him to see reason."
     lysandra "Sir Brannoch has placed an Aegis Ward upon our vanguard. None shall touch the Lion of Solhaven while I draw breath."
 
-    hide image "characters/dawn_king/state_c_camp.png"
-    hide image "characters/dawn_queen/state_c_camp.png"
+    hide dawn_king
+    hide dawn_queen
     call run_dawn_chapter_battle(6)
 
     scene bg_thronefield_dawn with dissolve
-    show image "characters/dawn_king/state_a_battle.png" at center with dissolve
+    show expression "characters/dawn_king/state_a_battle.png" as dawn_king at center with dissolve
     aurelian "Malachar's regicide strike has been parried. Across the monoliths, I see the exhaustion in his eyes—he carries the same dread of The Hollow that I do."
     menu:
         "How do you address Emperor Malachar after the royal clash?"
@@ -229,8 +259,8 @@ label dawn_ch7_start:
     call run_dawn_chapter_battle(7)
 
     scene bg_river_parley with dissolve
-    show image "characters/dawn_queen/state_a_battle.png" at left
-    show image "characters/dusk_queen/state_a_battle.png" at right
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at left
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at right
     with dissolve
     nyssara "A thrilling dance, Commander. You protected your Queen admirably."
     menu:
@@ -245,26 +275,21 @@ label dawn_ch7_start:
 label dawn_ch8_start:
     $ current_chapter_idx = 8
     scene bg_thronefield_eclipse with fade
-
-    # Eve of Chapter 8: Check for Fellowship Rank 4 Champion's Oath CG!
-    call dawn_check_rank4_oath
-
-    scene bg_thronefield_eclipse with dissolve
-    show image "characters/dawn_queen/state_a_battle.png" at left
-    show image "characters/dawn_bishop/state_a_battle.png" at right
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at left
+    show expression "characters/dawn_bishop/state_a_battle.png" as dawn_bishop at right
     with dissolve
 
     narrator "Chapter 8: The Final Dawnstone — Beneath the Eclipsed Sky."
     ilyara "The sky above the Thronefield has fractured into solar and umbral vortices! The Arbiter's runes are glowing blood-red!"
     lysandra "This is the climax of the Rite, Commander. Deliver checkmate across the final monolith—and if our Concord holds true, we will shatter the Arbiter's chains together!"
 
-    hide image "characters/dawn_queen/state_a_battle.png"
-    hide image "characters/dawn_bishop/state_a_battle.png"
+    hide dawn_queen
+    hide dawn_bishop
     call run_dawn_chapter_battle(8)
 
     scene bg_thronefield_eclipse with dissolve
-    show image "characters/dawn_queen/state_a_battle.png" at left
-    show image "characters/dusk_queen/state_b_worn.png" at right
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at left
+    show expression "characters/dusk_queen/state_b_worn.png" as dusk_queen at right
     with dissolve
 
     narrator "Umbrenholt's formation is placed in final checkmate! As the monoliths shudder above the yawning abyss of The Hollow, the Arbiter Automaton commands you to deliver the final execution strike."

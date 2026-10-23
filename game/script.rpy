@@ -47,12 +47,17 @@ default persistent.concord_points = 0
 default persistent.completed_campaigns = []
 default persistent.unlocked_cgs = []
 
-## Runtime Session State
+## Runtime Session State (Primitives persisted per Section 0 Guardrail)
 default current_session = None
 default current_detector = None
 default current_camp = None
+default session_snapshot = None
+default camp_snapshot = None
 default current_chapter_idx = 1
 default current_faction = "dawn"
+default last_match_outcome = None
+default chapter_obj_met = False
+default banter_db = {}
 
 ## Helper function to load JSON chapter data
 init python:
@@ -66,6 +71,11 @@ init python:
         with open(p, "r", encoding="utf-8") as f:
             return json.load(f)["characters"]
 
+    def load_banter_json():
+        p = renpy.loader.transfn("data/banter.json")
+        with open(p, "r", encoding="utf-8") as f:
+            return json.load(f)
+
 ## ============================================================================
 ## MAIN ENTRY POINT
 ## ============================================================================
@@ -76,6 +86,7 @@ label start:
 
     $ chapters_db = load_campaign_json()
     $ roster_db = load_roster_json()
+    $ banter_db = load_banter_json()
 
     menu:
         "Begin The Summit of Ashgate (Shared Prologue)":

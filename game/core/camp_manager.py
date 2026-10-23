@@ -139,7 +139,7 @@ class CampManager:
         has_rank_3 = any(r >= 3 for r in self.fellowship_ranks.values())
         max_aether = base_max + (1 if has_rank_3 else 0)
 
-        starting_aether = min(max_aether, 3 + (1 if self.recon_buff_active else 0))
+        starting_aether = 3 + (1 if self.recon_buff_active else 0)
         return (max_aether, starting_aether)
 
     def has_enhanced_advisor(self, char_id: str) -> bool:

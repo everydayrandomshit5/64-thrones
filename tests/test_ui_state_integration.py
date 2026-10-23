@@ -161,7 +161,7 @@ def test_war_tent_ui_flow():
     # Check aether bonuses for battle
     max_a, start_a = camp.get_battle_aether_bonuses()
     assert max_a == 3
-    assert start_a == 3 or start_a == 4
+    assert start_a == 4
 
 
 def test_codex_ui_wardrobe_state_switching():

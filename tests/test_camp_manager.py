@@ -85,7 +85,7 @@ def test_war_table_recon():
     # Aether bonus should now include the +1 starting charge
     max_aether, starting_aether = camp.get_battle_aether_bonuses()
     assert max_aether == 3
-    assert starting_aether == 4 or starting_aether == min(max_aether, 4)
+    assert starting_aether == 4
 
     # Entering battle consumes the recon buff
     assert camp.consume_recon_buff() is True

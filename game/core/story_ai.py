@@ -306,6 +306,17 @@ def generate_advisor_rationale(
             base += f" [Aether Geometry: Fork bonus +{comps['F']:.0f}]"
         return base
 
+    elif advisor_type == "ally":
+        if comps["K"] > 0 or comps["C"] > 0:
+            base = f"Combined Concord strike at {to_str}! Dawn and Dusk converge as one."
+        elif comps["F"] > 0:
+            base = f"Twin-court pincer at {to_str}—bind the Arbiter's flanks!"
+        else:
+            base = f"Synchronize allied leylines from {from_str} to {to_str}."
+        if enhanced:
+            base += f" [Concord Synergy: +{comps['C'] + comps['K'] + comps['F']:.0f}]"
+        return base
+
     return f"Advance to {to_str}."
 
 
@@ -315,6 +326,7 @@ def get_war_council_advice(
     enhanced_analysis: bool = False,
     legal_moves: Optional[List[chess.Move]] = None,
     include_allied_fourth: bool = False,
+    enhanced_char_ids: Optional[List[str]] = None,
 ) -> List[Dict[str, Any]]:
     """
     Computes recommendations for the 3 War Council Advisors with strict uniqueness.
@@ -371,8 +383,11 @@ def get_war_council_advice(
         x1, y1, length_px, angle_deg = get_vector_arrow_transform(
             move.from_square, move.to_square, orientation_white
         )
+        is_char_enhanced = enhanced_analysis or (
+            enhanced_char_ids is not None and char_id in enhanced_char_ids
+        )
         rationale = generate_advisor_rationale(
-            advisor_role, move, move_comps[move], enhanced=enhanced_analysis
+            advisor_role, move, move_comps[move], enhanced=is_char_enhanced
         )
         return {
             "role": advisor_role,

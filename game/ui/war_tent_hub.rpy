@@ -10,6 +10,8 @@ init python:
             self.active_tab = "counsel"  # "counsel", "recon", "archive"
             self.selected_officer_id = None
             self.dialogue_msg = None
+            self.last_counseled_char = None
+            self.last_counseled_rank = 1
 
         def select_officer(self, char_id):
             self.selected_officer_id = char_id
@@ -19,6 +21,8 @@ init python:
             if self.camp.ap >= 1:
                 res = self.camp.counsel_officer(char_id, affinity_gain=15)
                 if res["success"]:
+                    self.last_counseled_char = char_id
+                    self.last_counseled_rank = max(1, res["current_rank"])
                     if res["rank_up"]:
                         self.dialogue_msg = f"Fellowship Rank increased to Rank {res['current_rank']}! New tactical insight unlocked."
                     else:
@@ -153,7 +157,7 @@ screen war_tent_hub(tent_state):
                         if camp.ap >= 1:
                             textbutton "Spend 1 AP to Counsel in Pavilion":
                                 text_size 22
-                                action Function(tent_state.perform_counsel, oc['id'])
+                                action [Function(tent_state.perform_counsel, oc['id']), Return("counsel_scene")]
                         else:
                             text "NO ACTION POINTS REMAINING THIS EVENING" size 18 color "#FF8080"
 

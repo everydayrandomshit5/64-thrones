@@ -5,6 +5,8 @@ init python:
     def unlock_cg(cg_path):
         if cg_path not in persistent.unlocked_cgs:
             persistent.unlocked_cgs.append(cg_path)
+        if store.current_camp is not None and cg_path not in store.current_camp.unlocked_cgs:
+            store.current_camp.unlocked_cgs.append(cg_path)
 
 ## ============================================================================
 ## SHARED PROLOGUE: THE NIGHT ASHGATE BURNED
@@ -13,6 +15,7 @@ init python:
 label prologue_start:
     $ persistent.concord_points = 0
     $ current_chapter_idx = 1
+    $ banter_db = load_banter_json()
 
     # -------------------------------------------------------------------------
     # SCENE 1: THE DIPLOMATIC SUMMIT
@@ -24,21 +27,21 @@ label prologue_start:
     narrator "High above the central chasm of Eltheris, banners of radiant solar gold and midnight velvet hang side by side along the vaulted stone arches."
     narrator "Tonight, the two great powers of the continent have convened to renegotiate the Aether Wellspring treaties—and you have been summoned as Chief Arbiter-Strategist to witness the accord."
 
-    show image "characters/dawn_king/state_a_battle.png" at left
-    show image "characters/dusk_king/state_a_battle.png" at right
+    show expression "characters/dawn_king/state_a_battle.png" as dawn_king at left
+    show expression "characters/dusk_king/state_a_battle.png" as dusk_king at right
     with dissolve
 
     aurelian "Six hundred years of cold peace have strained the leylines of Solhaven, Emperor Malachar. The southern wells run dry while your shadow-forges draw deeper from the crust."
     malachar "Our forges sustain the northern wards against the frost-wastes, Sovereign Aurelian. Umbrenholt takes only what the First Concord permits—no more, no less."
 
-    hide image "characters/dawn_king/state_a_battle.png"
-    hide image "characters/dusk_king/state_a_battle.png"
+    hide dawn_king
+    hide dusk_king
     with dissolve
 
     narrator "Before the monarchs' dispute can harden, their apex military commanders step forward to the marble drafting table."
 
-    show image "characters/dawn_queen/state_a_battle.png" at left
-    show image "characters/dusk_queen/state_a_battle.png" at right
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at left
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at right
     with dissolve
 
     narrator "On the left stands Grand Marshal Lysandra Verel—'The Sunblade' of House Aurelis—arrayed in her sculpted ivory-and-gold half-cuirass and pearl battle micro-skirt, the radiant rapier Sunburst resting at her hip."
@@ -88,8 +91,8 @@ label prologue_start:
     scene bg_ashgate_hall
     with dissolve
 
-    show image "characters/dawn_queen/state_a_battle.png" at left
-    show image "characters/dusk_queen/state_a_battle.png" at right
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at left
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at right
     with dissolve
 
     lysandra "The Rite of Thrones... invoked automatically by the sabotage. Whoever orchestrated tonight's attack wants our courts to bleed each other dry into The Quiet."
@@ -107,13 +110,13 @@ label prologue_start:
         "Take Command of House Aurelis (Dawn / White) alongside Grand Marshal Lysandra":
             $ current_faction = "dawn"
             $ current_camp = CampManager(faction="dawn")
-            hide image "characters/dusk_queen/state_a_battle.png" with dissolve
+            hide dusk_queen with dissolve
             lysandra "Your wisdom honors Solhaven, Commander. Come—our War Tent awaits on the eastern ridge. Let us prepare the Vanguard for First Light!"
             jump campaign_dawn_start
 
         "Take Command of The Umbrenholt Dominion (Dusk / Black) alongside Regent Nyssara":
             $ current_faction = "dusk"
             $ current_camp = CampManager(faction="dusk")
-            hide image "characters/dawn_queen/state_a_battle.png" with dissolve
+            hide dawn_queen with dissolve
             nyssara "A deliciously perceptive choice, Commander. Come into the velvet dark of my pavilion—let us show Solhaven how shadows conquer."
             jump campaign_dusk_start

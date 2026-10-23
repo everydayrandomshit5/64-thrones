@@ -8,34 +8,64 @@
 label run_dusk_chapter_battle(chap_idx):
     $ chapters_db = load_campaign_json()
     $ roster_db = load_roster_json()
+    $ banter_db = load_banter_json()
     $ chap_data = chapters_db["dusk_campaign"][chap_idx - 1]
 
-    # 1. War Tent Tactical Hub (2 AP)
+    # 1. War Tent Tactical Hub (2 AP) with Pavilion Fellowship Scene Loop
     $ current_camp.start_camp_session(chap_idx)
     $ tent_state = WarTentUI(current_camp, chap_data, roster_db)
-    call screen war_tent_hub(tent_state)
+    label .dusk_camp_loop:
+        call screen war_tent_hub(tent_state)
+        $ camp_ret = _return
+        if camp_ret == "counsel_scene" and tent_state.last_counseled_char:
+            call dusk_camp_fellowship_dialogue(tent_state.last_counseled_char, tent_state.last_counseled_rank)
+            jump .dusk_camp_loop
 
-    # 2. Thronefield Chess Match
+    # Eve of Chapter 8: Check for Fellowship Rank 4 Champion's Oath CG after Camp!
+    if chap_idx == 8:
+        call dusk_check_rank4_oath
+
+    # 2. Thronefield Chess Match (with Defeat / Regroup Retry Guard)
     $ aether_bonuses = current_camp.get_battle_aether_bonuses()
     $ current_camp.consume_recon_buff()
+    $ init_ward = chess.A8 if chap_idx == 6 else None
 
-    $ current_session = MatchSession(
-        player_faction="dusk",
-        boss_profile_id=chap_data["boss_profile"],
-        initial_fen=chap_data["initial_fen"],
-        starting_aether=aether_bonuses[1],
-        max_aether=aether_bonuses[0]
-    )
-    $ current_session.concord_points = persistent.concord_points
-    $ current_detector = EventDetector(
-        player_char_id=chap_data["player_char"],
-        boss_char_id=chap_data["boss_char"],
-        player_faction="dusk"
-    )
+    label .dusk_battle_attempt:
+        $ current_session = MatchSession(
+            player_faction="dusk",
+            boss_profile_id=chap_data["boss_profile"],
+            initial_fen=chap_data["initial_fen"],
+            starting_aether=aether_bonuses[1],
+            max_aether=aether_bonuses[0],
+            initial_warded_square=init_ward
+        )
+        $ current_session.concord_points = persistent.concord_points
+        $ current_detector = EventDetector(
+            player_char_id=chap_data["player_char"],
+            boss_char_id=chap_data["boss_char"],
+            player_faction="dusk"
+        )
 
-    $ tf_ui = ThronefieldUI(current_session, current_detector, chap_data)
-    call screen thronefield(tf_ui)
-    $ last_match_outcome = _return
+        $ tf_ui = ThronefieldUI(current_session, current_detector, chap_data, camp=current_camp, banter=banter_db)
+        call screen thronefield(tf_ui)
+        $ last_match_outcome = _return
+        $ chapter_obj_met = current_session.evaluate_chapter_objective(chap_idx)
+        $ session_snapshot = current_session.to_dict()
+        $ camp_snapshot = current_camp.to_dict()
+        $ current_session = None
+        $ current_detector = None
+
+        $ match_won = (last_match_outcome and last_match_outcome.get("winner") == "player")
+        $ draw_obj_ok = (chap_idx in (3, 7) and last_match_outcome and last_match_outcome.get("winner") == "draw" and chapter_obj_met)
+        if not (match_won or draw_obj_ok):
+            scene bg_thronefield_dusk with dissolve
+            show expression "characters/dusk_queen/state_b_worn.png" as dusk_queen at center with dissolve
+            nyssara "The monoliths fall silent... Pull back to my pavilion before The Quiet claims our vanguard. Regroup and strike again, Commander!"
+            hide dusk_queen
+            menu:
+                "The Thronefield clash ended without victory:"
+                "Regroup and Retry This Thronefield Match":
+                    jump .dusk_battle_attempt
     return
 
 ## ============================================================================
@@ -45,8 +75,8 @@ label run_dusk_chapter_battle(chap_idx):
 label dusk_ch1_start:
     $ current_chapter_idx = 1
     scene bg_thronefield_dusk with fade
-    show image "characters/dusk_queen/state_a_battle.png" at left
-    show image "characters/dusk_pawn_lead/state_a_battle.png" at right
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at left
+    show expression "characters/dusk_pawn_lead/state_a_battle.png" as dusk_pawn_lead at right
     with dissolve
 
     narrator "Chapter 1: Lanterns in the Gorge — The Western Obsidian Ridge."
@@ -54,12 +84,12 @@ label dusk_ch1_start:
     sorrel "Regent Nyssara! I've finished charting the leyline elevations along the first rank. If we lure their reckless pawns forward, our files will slice right through them!"
     nyssara "Clever girl, Sorrel. Come, Commander—let us prepare in my pavilion before teaching House Aurelis the price of haste."
 
-    hide image "characters/dusk_queen/state_a_battle.png"
-    hide image "characters/dusk_pawn_lead/state_a_battle.png"
+    hide dusk_queen
+    hide dusk_pawn_lead
     call run_dusk_chapter_battle(1)
 
     scene bg_thronefield_dusk with dissolve
-    show image "characters/dusk_queen/state_a_battle.png" at center with dissolve
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at center with dissolve
     nyssara "Their forward line has collapsed into our trap. Several young Solhaven squires stand disarmed at the edge of the monolith."
     menu:
         "What is your command regarding the disarmed Solhaven squires?"
@@ -73,20 +103,20 @@ label dusk_ch1_start:
 label dusk_ch2_start:
     $ current_chapter_idx = 2
     scene bg_thronefield_dusk with fade
-    show image "characters/dusk_knight/state_a_battle.png" at left
-    show image "characters/dusk_queen/state_a_battle.png" at right
+    show expression "characters/dusk_knight/state_a_battle.png" as dusk_knight at left
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at right
     with dissolve
 
     narrator "Chapter 2: Shadows in the Basin — Midnight Perimeter Watch."
     kaelen "Gloam caught the scent an hour ago, Commander. Solhaven's griffin riders are circling the flank—and the chasm below is leaking a strange, hollow frost."
     nyssara "Captain Kestrel thinks her aerial leaps can outmaneuver our Nightrunners. Show her how sharper fangs hunt in the dark, Kaelen."
 
-    hide image "characters/dusk_knight/state_a_battle.png"
-    hide image "characters/dusk_queen/state_a_battle.png"
+    hide dusk_knight
+    hide dusk_queen
     call run_dusk_chapter_battle(2)
 
     scene bg_thronefield_dusk with dissolve
-    show image "characters/dusk_knight/state_a_battle.png" at center with dissolve
+    show expression "characters/dusk_knight/state_a_battle.png" as dusk_knight at center with dissolve
     kaelen "The sky-knights are grounded! My wolves also uncovered a fractured Aether resonator near the fissure—it's draining life force straight down into the abyss."
     menu:
         "How do you handle the anomalous rift resonator and grounded scouts?"
@@ -100,20 +130,20 @@ label dusk_ch2_start:
 label dusk_ch3_start:
     $ current_chapter_idx = 3
     scene bg_thronefield_dusk with fade
-    show image "characters/dusk_rook/state_a_battle.png" at left
-    show image "characters/dusk_pawn_lead/state_a_battle.png" at right
+    show expression "characters/dusk_rook/state_a_battle.png" as dusk_rook at left
+    show expression "characters/dusk_pawn_lead/state_a_battle.png" as dusk_pawn_lead at right
     with dissolve
 
     narrator "Chapter 3: The Iron Wall — The Narrow Chasm Defile."
     dravok "Thirty border skirmishes I've fought, Commander, and none hit harder than Sir Brannoch's kinetic charges. Good thing my dark-iron plate doesn't know how to bend!"
     sorrel "Warden Dravok, if you anchor the central files with your gravity warhammer, our diagonal casters can pin their advance!"
 
-    hide image "characters/dusk_rook/state_a_battle.png"
-    hide image "characters/dusk_pawn_lead/state_a_battle.png"
+    hide dusk_rook
+    hide dusk_pawn_lead
     call run_dusk_chapter_battle(3)
 
     scene bg_thronefield_dusk with dissolve
-    show image "characters/dusk_rook/state_a_battle.png" at center with dissolve
+    show expression "characters/dusk_rook/state_a_battle.png" as dusk_rook at center with dissolve
     dravok "Hah! Even the Alabaster Bastion couldn't crack Umbrenholt iron today! Brannoch held his shield over his wounded niece as they pulled back."
     menu:
         "How do you direct Warden Dravok as Brannoch's squad withdraws?"
@@ -127,20 +157,20 @@ label dusk_ch3_start:
 label dusk_ch4_start:
     $ current_chapter_idx = 4
     scene bg_obsidian_archive with fade
-    show image "characters/dusk_bishop/state_a_battle.png" at left
-    show image "characters/dusk_queen/state_a_battle.png" at right
+    show expression "characters/dusk_bishop/state_a_battle.png" as dusk_bishop at left
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at right
     with dissolve
 
     narrator "Chapter 4: Echoes in the Stone — The Lower Sanctum of the Monoliths."
     veyra "Listen closely to the violet mist, Commander... My moon-lantern detects the heartbeats of those taken into The Quiet. They are not preserved in stasis—The Hollow is drinking their memories!"
     nyssara "High Seeress Ilyara is projecting solar beams across the sanctuary diagonals. Secure the sanctum so Veyra can trace the leak!"
 
-    hide image "characters/dusk_bishop/state_a_battle.png"
-    hide image "characters/dusk_queen/state_a_battle.png"
+    hide dusk_bishop
+    hide dusk_queen
     call run_dusk_chapter_battle(4)
 
     scene bg_obsidian_archive with dissolve
-    show image "characters/dusk_bishop/state_a_battle.png" at center with dissolve
+    show expression "characters/dusk_bishop/state_a_battle.png" as dusk_bishop at center with dissolve
     veyra "The diagonal leylines are ours. Commander, I can project a shadow-astronomy echo across the chasm so Ilyara sees the truth of The Quiet as well."
     menu:
         "Do you allow Moonweaver Veyra to share the resonance echo?"
@@ -158,20 +188,20 @@ label dusk_ch4_start:
 label dusk_ch5_start:
     $ current_chapter_idx = 5
     scene bg_obsidian_archive with fade
-    show image "characters/dusk_pawn_lead/state_a_battle.png" at left
-    show image "characters/dusk_queen/state_a_battle.png" at right
+    show expression "characters/dusk_pawn_lead/state_a_battle.png" as dusk_pawn_lead at left
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at right
     with dissolve
 
     narrator "Chapter 5: The Obsidian Archive — The Forbidden Treaty Vaults."
     sorrel "Commander, Regent Nyssara—look at these gravity-preserved stone tablets! The original First Concord never decreed eternal stasis in The Quiet. Someone rewrote the Arbiter's core runes!"
     nyssara "And Tamsin Haldane's vanguard raiders have just breached the outer vault door. Guide Sorrel to the first rank, Commander—let her claim her Umbral Coronation!"
 
-    hide image "characters/dusk_pawn_lead/state_a_battle.png"
-    hide image "characters/dusk_queen/state_a_battle.png"
+    hide dusk_pawn_lead
+    hide dusk_queen
     call run_dusk_chapter_battle(5)
 
     scene bg_obsidian_archive with dissolve
-    show image "characters/dusk_pawn_lead/state_a_battle.png" at center with dissolve
+    show expression "characters/dusk_pawn_lead/state_a_battle.png" as dusk_pawn_lead at center with dissolve
     sorrel "We held the archive within twenty-five moves! And Tamsin's vanguard detachment is cornered in the lower corridor."
     menu:
         "How do you handle the cornered Solhaven vanguard and the treaty proof?"
@@ -185,8 +215,8 @@ label dusk_ch5_start:
 label dusk_ch6_start:
     $ current_chapter_idx = 6
     scene bg_quarters_dusk with fade
-    show image "characters/dusk_king/state_c_camp.png" at left
-    show image "characters/dusk_queen/state_c_camp.png" at right
+    show expression "characters/dusk_king/state_c_camp.png" as dusk_king at left
+    show expression "characters/dusk_queen/state_c_camp.png" as dusk_queen at right
     with dissolve
 
     narrator "Chapter 6: The Emperor's Burden — The Imperial Pavilion at Umbral Peak."
@@ -194,12 +224,12 @@ label dusk_ch6_start:
     malachar "Aurelian thinks our shadow-forges caused the breach, and his regicide strike force marches on my position. Protect the Ashen Crown so we may end this madness."
     nyssara "Warden Dravok's Aegis Ward encircles our line. No solar blade shall reach the Emperor."
 
-    hide image "characters/dusk_king/state_c_camp.png"
-    hide image "characters/dusk_queen/state_c_camp.png"
+    hide dusk_king
+    hide dusk_queen
     call run_dusk_chapter_battle(6)
 
     scene bg_thronefield_dusk with dissolve
-    show image "characters/dusk_king/state_a_battle.png" at center with dissolve
+    show expression "characters/dusk_king/state_a_battle.png" as dusk_king at center with dissolve
     malachar "Aurelian's assault is broken. Across the field, the Lion of Solhaven lowers his greatsword—he sees the runic brand burning through my cracked breastplate."
     menu:
         "How do you counsel Emperor Malachar after repelling the assault?"
@@ -227,8 +257,8 @@ label dusk_ch7_start:
     call run_dusk_chapter_battle(7)
 
     scene bg_river_parley with dissolve
-    show image "characters/dusk_queen/state_a_battle.png" at left
-    show image "characters/dawn_queen/state_a_battle.png" at right
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at left
+    show expression "characters/dawn_queen/state_a_battle.png" as dawn_queen at right
     with dissolve
     lysandra "Well fought, Commander. You kept Nyssara unscathed through twenty turns of steel and fire."
     menu:
@@ -243,26 +273,21 @@ label dusk_ch7_start:
 label dusk_ch8_start:
     $ current_chapter_idx = 8
     scene bg_thronefield_eclipse with fade
-
-    # Eve of Chapter 8: Check for Fellowship Rank 4 Champion's Oath CG!
-    call dusk_check_rank4_oath
-
-    scene bg_thronefield_eclipse with dissolve
-    show image "characters/dusk_queen/state_a_battle.png" at left
-    show image "characters/dusk_bishop/state_a_battle.png" at right
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at left
+    show expression "characters/dusk_bishop/state_a_battle.png" as dusk_bishop at right
     with dissolve
 
     narrator "Chapter 8: The Final Duskstone — Beneath the Eclipsed Chasm."
     veyra "The seal beneath the sixty-four stones is fracturing! Violet and golden lightning are tearing through the void!"
     nyssara "The final match is upon us, Commander. Bring Solhaven's King to checkmate—and if our Concord is strong enough, we will turn our blades upon the true enemy!"
 
-    hide image "characters/dusk_queen/state_a_battle.png"
-    hide image "characters/dusk_bishop/state_a_battle.png"
+    hide dusk_queen
+    hide dusk_bishop
     call run_dusk_chapter_battle(8)
 
     scene bg_thronefield_eclipse with dissolve
-    show image "characters/dusk_queen/state_a_battle.png" at left
-    show image "characters/dawn_queen/state_b_worn.png" at right
+    show expression "characters/dusk_queen/state_a_battle.png" as dusk_queen at left
+    show expression "characters/dawn_queen/state_b_worn.png" as dawn_queen at right
     with dissolve
 
     narrator "House Aurelis is locked in final checkmate! Above the trembling monoliths, the Arbiter Automaton commands you to cast the defeated court into The Quiet forever."

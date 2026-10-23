@@ -15,6 +15,7 @@ import chess
 
 from .story_ai import (
     BOSS_PROFILES,
+    evaluate_f,
     get_war_council_advice,
     predict_boss_move,
     select_boss_move,
@@ -38,6 +39,7 @@ class MatchSession:
         initial_fen: Optional[str] = None,
         starting_aether: int = 3,
         max_aether: int = 3,
+        initial_warded_square: Optional[int] = None,
     ) -> None:
         self.player_faction = player_faction.lower()
         self.player_color: chess.Color = (
@@ -51,9 +53,9 @@ class MatchSession:
         self.current_fen: str = self.board.fen()
 
         # Aether & Spell States
-        self.max_aether: int = max(1, max_aether)
-        self.aether: int = min(starting_aether, self.max_aether)
-        self.warded_square: Optional[int] = None
+        self.max_aether: int = max(1, max_aether, starting_aether)
+        self.aether: int = max(0, min(starting_aether, self.max_aether))
+        self.warded_square: Optional[int] = initial_warded_square
         self.oracle_active: bool = False
         self.oracle_prediction: Optional[Dict[str, Any]] = None
 
@@ -63,11 +65,13 @@ class MatchSession:
             (self.current_fen, self._snapshot_spell_state())
         ]
 
-        # Match statistics
+        # Match statistics & objective trackers
         self.move_count: int = 0
         self.captured_pieces_by_player: List[chess.PieceType] = []
         self.captured_pieces_by_boss: List[chess.PieceType] = []
         self.concord_points: int = 0
+        self.executed_fork: bool = False
+        self.midline_pawn_advanced: bool = False
 
     def _snapshot_spell_state(self) -> Dict[str, Any]:
         """Returns a JSON-serializable snapshot of spell variables."""
@@ -445,6 +449,17 @@ class MatchSession:
         elif self.board.is_en_passant(move):
             self.captured_pieces_by_player.append(chess.PAWN)
 
+        # Objective tracking: check for fork and midline pawn advance
+        if evaluate_f(self.board, move) > 0:
+            self.executed_fork = True
+        moving_piece = self.board.piece_at(move.from_square)
+        if moving_piece is not None and moving_piece.piece_type == chess.PAWN:
+            dest_rank = chess.square_rank(move.to_square)
+            if self.player_color == chess.WHITE and dest_rank >= 4:
+                self.midline_pawn_advanced = True
+            elif self.player_color == chess.BLACK and dest_rank <= 3:
+                self.midline_pawn_advanced = True
+
         # Push move
         self.board.push(move)
         self.oracle_active = False
@@ -518,6 +533,40 @@ class MatchSession:
             "fen": self.current_fen,
             "is_game_over": self.board.is_game_over(),
         }
+
+    def evaluate_chapter_objective(self, chapter_idx: int) -> bool:
+        """
+        Evaluates whether the Chapter 1-8 tactical objective (Section 4.2) was achieved.
+        """
+        outcome = self.get_outcome()
+        won = outcome is not None and outcome.get("winner") == "player"
+
+        if chapter_idx == 1:
+            # Capture 3 pieces OR advance a pawn past the midline
+            return len(self.captured_pieces_by_player) >= 3 or self.midline_pawn_advanced or won
+        elif chapter_idx == 2:
+            # Capture an enemy Knight OR execute a Fork
+            return (chess.KNIGHT in self.captured_pieces_by_player) or self.executed_fork or won
+        elif chapter_idx == 3:
+            # Endure 12 turns OR capture an enemy Rook
+            return self.move_count >= 12 or (chess.ROOK in self.captured_pieces_by_player) or won
+        elif chapter_idx == 4:
+            # Win while keeping at least 1 Bishop active
+            return won and len(self.board.pieces(chess.BISHOP, self.player_color)) >= 1
+        elif chapter_idx == 5:
+            # Win within 25 moves
+            return won and self.move_count <= 25
+        elif chapter_idx == 6:
+            # Royal Escort: Win match
+            return won
+        elif chapter_idx == 7:
+            # Win or reach Turn 20 without losing your Queen
+            has_queen = len(self.board.pieces(chess.QUEEN, self.player_color)) >= 1
+            return has_queen and (won or self.move_count >= 20)
+        elif chapter_idx == 8:
+            # Checkmate enemy King
+            return won
+        return won
 
     # =========================================================================
     # REN'PY SERIALIZATION / ROLLBACK RECONSTRUCTION (Section 0)

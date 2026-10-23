@@ -50,10 +50,12 @@ transform cutin_banner_anim:
 
 init python:
     class ThronefieldUI:
-        def __init__(self, session, detector, chapter_data=None):
+        def __init__(self, session, detector, chapter_data=None, camp=None, banter=None):
             self.session = session
             self.detector = detector
             self.chapter_data = chapter_data or {}
+            self.camp = camp
+            self.banter = banter or {}
 
             self.selected_sq = None
             self.legal_moves_for_selected = []
@@ -61,20 +63,35 @@ init python:
             self.selected_advisor_idx = None
             self.active_advisors = []
             self.cutin_active = None
+            self.battle_log_msg = None
 
-            self.refresh_advisors()
+            # If match starts on Boss turn (e.g., Dusk faction vs White-first FEN), execute boss opening move
+            if not self.session.board.is_game_over() and not self.session.is_player_turn:
+                self.execute_boss_reply()
+            else:
+                self.refresh_advisors()
 
         def refresh_advisors(self):
             if not self.session.board.is_game_over() and self.session.is_player_turn:
                 is_finale = (self.chapter_data.get("id") == "grand_finale")
+                enhanced_ids = []
+                if self.camp is not None and hasattr(self.camp, "fellowship_ranks"):
+                    enhanced_ids = [
+                        cid for cid, rk in self.camp.fellowship_ranks.items() if rk >= 2
+                    ]
                 self.active_advisors = get_war_council_advice(
                     self.session.board,
                     player_faction=self.session.player_faction,
                     legal_moves=self.session.get_filtered_legal_moves(),
                     include_allied_fourth=is_finale,
+                    enhanced_char_ids=enhanced_ids,
                 )
             else:
                 self.active_advisors = []
+
+        def _get_spell_callout(self, spell_key):
+            spells_dict = self.banter.get("spells", {}).get(spell_key, {})
+            return spells_dict.get(self.session.player_faction, "")
 
         def on_square_clicked(self, sq):
             if not self.session.is_player_turn or self.session.board.is_game_over():
@@ -85,6 +102,7 @@ init python:
                 if self.session.can_cast_aegis_ward(sq):
                     self.session.cast_aegis_ward(sq)
                     self.spell_mode = None
+                    self.battle_log_msg = self._get_spell_callout("aegis_ward")
                     self.refresh_advisors()
                 else:
                     self.spell_mode = None
@@ -95,6 +113,7 @@ init python:
                 if self.session.can_cast_marshals_advance(sq):
                     res = self.session.cast_marshals_advance(sq)
                     self.spell_mode = None
+                    self.battle_log_msg = self._get_spell_callout("marshals_advance")
                     self._after_player_move(chess.Move.from_uci(f"{res['moved_pawn']}{res['dest_square']}"))
                     self.refresh_advisors()
                 else:
@@ -178,12 +197,14 @@ init python:
                 self.session.cast_chrono_pulse()
                 self.selected_sq = None
                 self.legal_moves_for_selected = []
+                self.battle_log_msg = self._get_spell_callout("chrono_pulse")
                 self.refresh_advisors()
 
         def trigger_oracle_gaze(self):
             if self.session.can_cast_oracle_gaze():
                 boss_prof = self.chapter_data.get("boss_profile", "grand_command")
                 self.session.cast_oracle_gaze(boss_profile_id=boss_prof)
+                self.battle_log_msg = self._get_spell_callout("oracle_gaze")
 
         def trigger_aegis_ward_mode(self):
             if self.session.aether >= 2 and self.session.is_player_turn:
@@ -300,12 +321,14 @@ screen thronefield(ui_state):
 
         if ui_state.spell_mode:
             text "MODE: SELECT TARGET FOR [ui_state.spell_mode.upper()]" size 20 color "#FFE899" xalign 0.5 ypos 820 at pulse_glow
+        elif ui_state.battle_log_msg:
+            text "[ui_state.battle_log_msg]" size 16 color "#FFE899" italic True xalign 0.5 ypos 820 xsize 540 text_align 0.5
 
     # -------------------------------------------------------------------------
-    # 3. CENTER: 640x640 THRONEFIELD CHESSBOARD (x=640..1280, y=100..740)
+    # 3. CENTER: 640x640 THRONEFIELD CHESSBOARD (x=640..1280, y=120..760)
     # -------------------------------------------------------------------------
     fixed:
-        xpos 640 ypos 100 xsize 640 ysize 640
+        xpos 640 ypos 120 xsize 640 ysize 640
 
         # Layer 1: 64 Board Tiles
         for sq in range(64):
@@ -403,10 +426,10 @@ screen thronefield(ui_state):
     # -------------------------------------------------------------------------
     # Layer 4: Advisor Vector Visuals (ATL Anchored Vectors - Section 6.2)
     # -------------------------------------------------------------------------
-    if ui_state.selected_advisor_idx is not None and ui_state.selected_advisor_idx < len(ui_state.active_advisors):
-        $ adv = ui_state.active_advisors[ui_state.selected_advisor_idx]
-        $ vec = adv["vector"]
-        add adv["arrow_texture"] at advisor_vector_arrow(vec["x1"], vec["y1"] - 20, vec["length"], vec["angle"])
+    for idx, adv in enumerate(ui_state.active_advisors):
+        if ui_state.selected_advisor_idx is None or ui_state.selected_advisor_idx == idx:
+            $ vec = adv["vector"]
+            add adv["arrow_texture"] at advisor_vector_arrow(vec["x1"], vec["y1"], vec["length"], vec["angle"])
 
     # -------------------------------------------------------------------------
     # 4. RIGHT HUD: OPPONENT BOSS & STASIS RESERVE (x=1310..1900)
@@ -443,31 +466,35 @@ screen thronefield(ui_state):
                     add cap_img xsize 36 ysize 36
 
     # -------------------------------------------------------------------------
-    # 5. BOTTOM BAR: 3 WAR COUNCIL ADVISORS (y=760..1060)
+    # 5. BOTTOM BAR: WAR COUNCIL ADVISORS (y=775..1065)
     # -------------------------------------------------------------------------
     frame:
-        xpos 640 ypos 760 xsize 640 ysize 290
+        xpos 640 ypos 775 xsize 640 ysize 285
         background "#181224EE"
+
+        $ num_adv = len(ui_state.active_advisors)
+        $ card_w = 150 if num_adv >= 4 else 198
+        $ card_spacing = 8 if num_adv >= 4 else 14
 
         hbox:
             align (0.5, 0.5)
-            spacing 14
+            spacing card_spacing
 
-            for idx, adv in enumerate(ui_state.active_advisors[:3]):
+            for idx, adv in enumerate(ui_state.active_advisors):
                 button:
-                    xsize 195 ysize 260
+                    xsize card_w ysize 260
                     background ("#302040" if ui_state.selected_advisor_idx == idx else "#201830")
                     hover_background "#402850"
-                    action [SetVariable("ui_state.selected_advisor_idx", idx)]
+                    action [SetVariable("ui_state.selected_advisor_idx", (None if ui_state.selected_advisor_idx == idx else idx))]
 
                     vbox:
                         align (0.5, 0.5)
-                        spacing 6
-                        add f"ui/advisors/{adv['char_id']}_bust.png" xsize 64 ysize 64 xalign 0.5
-                        text "[adv['name']]" size 18 color "#EBC364" bold True xalign 0.5
-                        text "[adv['role'].upper()]" size 14 color adv['color'] xalign 0.5
-                        text "[adv['uci'].upper()]" size 16 color "#FBF8F0" bold True xalign 0.5
-                        text "[adv['rationale'][:48]]..." size 12 color "#C8C0D8" xalign 0.5
+                        spacing 4
+                        add f"ui/advisors/{adv['char_id']}_bust.png" xsize 56 ysize 56 xalign 0.5
+                        text "[adv['name']]" size 16 color "#EBC364" bold True xalign 0.5
+                        text "[adv['role'].upper()]" size 13 color adv['color'] xalign 0.5
+                        text "[adv['uci'].upper()]" size 15 color "#FBF8F0" bold True xalign 0.5
+                        text "[adv['rationale'][:96]]" size 11 color "#C8C0D8" xalign 0.5 text_align 0.5
 
                         textbutton "Execute":
                             xalign 0.5
@@ -479,6 +506,13 @@ screen thronefield(ui_state):
     # -------------------------------------------------------------------------
     if ui_state.cutin_active:
         $ banner_file = ui_state.cutin_active["banner"]
+        $ cutin_cid = ui_state.cutin_active.get("char_id", "")
+        $ cutin_type = ui_state.cutin_active.get("type", "battle_damage")
+        $ cutin_quote = (
+            ui_state.banter.get("promotion_callouts", {}).get(cutin_cid, "")
+            if cutin_type == "ascension"
+            else ui_state.banter.get("worn_state_reactions", {}).get(cutin_cid, "")
+        )
         button:
             xpos 0 ypos 0 xsize 1920 ysize 1080
             background "#00000088"
@@ -486,6 +520,12 @@ screen thronefield(ui_state):
 
             add banner_file at cutin_banner_anim:
                 xsize 1920 ysize 360
+
+            if cutin_quote:
+                frame:
+                    xalign 0.5 ypos 620 xsize 1200 ysize 90
+                    background "#140F22EE"
+                    text "[cutin_quote]" size 22 color "#FFE899" italic True align (0.5, 0.5) text_align 0.5
 
     # -------------------------------------------------------------------------
     # 7. MATCH OUTCOME MODAL
