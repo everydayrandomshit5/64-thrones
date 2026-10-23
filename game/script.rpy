@@ -77,106 +77,30 @@ label start:
     $ chapters_db = load_campaign_json()
     $ roster_db = load_roster_json()
 
-    # Introduction & Faction Selection
-    narrator "Six centuries after the Cataclysm of Falling Stars, the continent of Eltheris stands once more upon the precipice of ruin."
-    narrator "Between the radiant realm of House Aurelis and the twilight empire of Umbrenholt, sixty-four colossal monoliths rise from the chasm of The Hollow."
-
     menu:
-        "Select your path in the Rite of Sixty-Four Thrones:":
-            "Command House Aurelis (Dawn / White)":
-                $ current_faction = "dawn"
-                $ current_camp = CampManager(faction="dawn")
-                jump campaign_dawn_start
+        "Begin The Summit of Ashgate (Shared Prologue)":
+            jump prologue_start
 
-            "Command The Umbrenholt Dominion (Dusk / Black)":
-                $ current_faction = "dusk"
-                $ current_camp = CampManager(faction="dusk")
-                jump campaign_dusk_start
+        "Command House Aurelis (Dawn / White Campaign)":
+            $ current_faction = "dawn"
+            $ current_camp = CampManager(faction="dawn")
+            jump campaign_dawn_start
 
-            "Open Codex Archive & CG Gallery":
-                call screen codex_gallery
-                jump start
+        "Command The Umbrenholt Dominion (Dusk / Black Campaign)":
+            $ current_faction = "dusk"
+            $ current_camp = CampManager(faction="dusk")
+            jump campaign_dusk_start
+
+        "Open Codex Archive & CG Gallery":
+            call screen codex_gallery
+            jump start
 
 ## ============================================================================
-## CAMPAIGN LOOP (DAWN)
+## CAMPAIGN ENTRY LABELS (Routed to game/story/campaign_dawn.rpy & campaign_dusk.rpy)
 ## ============================================================================
 
 label campaign_dawn_start:
-    $ chapters_db = load_campaign_json()
-    $ roster_db = load_roster_json()
-    $ dawn_list = chapters_db["dawn_campaign"]
-
-    while current_chapter_idx <= len(dawn_list):
-        $ chap_data = dawn_list[current_chapter_idx - 1]
-
-        # 1. War Tent Tactical Hub
-        $ current_camp.start_camp_session(current_chapter_idx)
-        $ tent_state = WarTentUI(current_camp, chap_data, roster_db)
-        call screen war_tent_hub(tent_state)
-
-        # 2. Thronefield Chess Battle
-        $ aether_bonuses = current_camp.get_battle_aether_bonuses()
-        $ current_camp.consume_recon_buff()
-
-        $ current_session = MatchSession(
-            player_faction="dawn",
-            boss_profile_id=chap_data["boss_profile"],
-            initial_fen=chap_data["initial_fen"],
-            starting_aether=aether_bonuses[1],
-            max_aether=aether_bonuses[0]
-        )
-        $ current_detector = EventDetector(
-            player_char_id=chap_data["player_char"],
-            boss_char_id=chap_data["boss_char"],
-            player_faction="dawn"
-        )
-
-        $ tf_ui = ThronefieldUI(current_session, current_detector, chap_data)
-        call screen thronefield(tf_ui)
-
-        # Aftermath
-        $ current_chapter_idx += 1
-
-    return
-
-## ============================================================================
-## CAMPAIGN LOOP (DUSK)
-## ============================================================================
+    jump dawn_ch1_start
 
 label campaign_dusk_start:
-    $ chapters_db = load_campaign_json()
-    $ roster_db = load_roster_json()
-    $ dusk_list = chapters_db["dusk_campaign"]
-
-    while current_chapter_idx <= len(dusk_list):
-        $ chap_data = dusk_list[current_chapter_idx - 1]
-
-        # 1. War Tent Tactical Hub
-        $ current_camp.start_camp_session(current_chapter_idx)
-        $ tent_state = WarTentUI(current_camp, chap_data, roster_db)
-        call screen war_tent_hub(tent_state)
-
-        # 2. Thronefield Chess Battle
-        $ aether_bonuses = current_camp.get_battle_aether_bonuses()
-        $ current_camp.consume_recon_buff()
-
-        $ current_session = MatchSession(
-            player_faction="dusk",
-            boss_profile_id=chap_data["boss_profile"],
-            initial_fen=chap_data["initial_fen"],
-            starting_aether=aether_bonuses[1],
-            max_aether=aether_bonuses[0]
-        )
-        $ current_detector = EventDetector(
-            player_char_id=chap_data["player_char"],
-            boss_char_id=chap_data["boss_char"],
-            player_faction="dusk"
-        )
-
-        $ tf_ui = ThronefieldUI(current_session, current_detector, chap_data)
-        call screen thronefield(tf_ui)
-
-        # Aftermath
-        $ current_chapter_idx += 1
-
-    return
+    jump dusk_ch1_start
