@@ -1,0 +1,424 @@
+{
+  "factions": {
+    "dawn": {
+      "name": "House Aurelis",
+      "color": "White",
+      "theme": "Lumen (Solar Kinetic Arcana & Radiant Dawnstone)",
+      "capital": "Solhaven",
+      "monarch": "Sovereign Aurelian Valdris",
+      "commander": "Grand Marshal Lysandra Verel"
+    },
+    "dusk": {
+      "name": "The Umbrenholt Dominion",
+      "color": "Black",
+      "theme": "Umbra (Celestial Gravitational Arcana & Duskstone)",
+      "capital": "Umbral Peak",
+      "monarch": "Emperor Malachar Voss",
+      "commander": "Regent Nyssara Vael"
+    }
+  },
+  "characters": [
+    {
+      "id": "dawn_king",
+      "name": "Aurelian Valdris",
+      "title": "The Lion of Solhaven",
+      "faction": "dawn",
+      "role": "Sovereign",
+      "piece_type": "king",
+      "gender": "male",
+      "age": 46,
+      "visuals": "Silver-streaked golden hair, piercing amber eyes, short trimmed royal beard, broad-shouldered muscular physique with a veteran's scar across his sculpted chest.",
+      "wardrobe": {
+        "state_a_battle": "Gilded lion-crested plate armor with a deep V-neck royal mantle framing his scarred chest, ivory marshal's coat, sun-forged greatsword Solstice.",
+        "state_b_worn": "Shattered chestplate straps leaving his muscular torso partially exposed beneath a torn ivory coat, cracked left pauldron, grip firm on his hilt.",
+        "state_c_camp": "Unlaced white silk tunic open to the sternum with gold embroidery, sleeves rolled up over muscular forearms, studying maps over a drafting table."
+      },
+      "lore": {
+        "homeland": "Solhaven",
+        "secret": "Two decades ago, Aurelian sealed the first rift at great personal cost, sacrificing his own family lineage's security to keep the peace."
+      },
+      "bond_arc": {
+        "rank_1": "Reviewing battle doctrines and the ancient history of House Aurelis.",
+        "rank_2": "Reflecting on the heavy moral weight and sacrifices of royal command.",
+        "rank_3": "A midnight discussion on monarchical duty and the fading seal beneath the stone.",
+        "rank_4": "Oath of Fellowship: Naming you Chief Marshal of Aurelis."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dawn_king/state_a_battle.png",
+        "state_b_worn": "characters/dawn_king/state_b_worn.png",
+        "state_c_camp": "characters/dawn_king/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dawn_king_cutin.png",
+      "bust_path": "ui/advisors/dawn_king_bust.png"
+    },
+    {
+      "id": "dawn_queen",
+      "name": "Lysandra Verel",
+      "title": "The Sunblade",
+      "faction": "dawn",
+      "role": "Grand Marshal",
+      "piece_type": "queen",
+      "gender": "female",
+      "age": 29,
+      "visuals": "Tall, statuesque and voluptuous warrior woman with an hourglass silhouette, waist-length fiery auburn hair secured in a high combat plait, sharp hazel eyes, full lips, and a commanding, confident posture.",
+      "wardrobe": {
+        "state_a_battle": "Sculpted ivory-and-gold half-cuirass engineered with a plunging sweetheart neckline that pushes up and frames generous cleavage, coupled with a cropped lower edge that exposes a toned midriff and a crescent of sculpted underboob above a gilded waist-cincher. Wears a pleated pearl-white battle micro-skirt with gold trim, sheer white silk thigh-high stockings held taut by ornate golden sun-buckle garter straps over plush thighs, heeled golden greaves, and wields the radiant rapier Sunburst.",
+        "state_b_worn": "Lower rim of her gilded half-cuirass cracked away on one side to expose pronounced underboob and side-cleavage; upper neckline clasp snapped open, pearl micro-skirt slashed at the hip exposing her golden garter belt, sheer white stockings torn along the thigh, skin glistening with sweat as she glares with fierce determination.",
+        "state_c_camp": "Cropped crimson velvet bolero top tied loosely in a knot between her breasts—displaying both a deep V-cleavage and exposed lower underboob—paired with a tight high-waisted black leather miniskirt and sheer lace-top thigh-high stockings while sharpening her rapier by the camp brazier."
+      },
+      "lore": {
+        "homeland": "Verel Marchlands, Solhaven",
+        "secret": "Cleared her family's name through undefeated tournament combat. Beneath her uncompromising martial exterior lies a dedicated protector who refuses to let any soldier die needlessly."
+      },
+      "bond_arc": {
+        "rank_1": "Tactical sparring session calibrating swift rapier parries.",
+        "rank_2": "Discussing the moral cost of command and fallen squires from the border skirmishes.",
+        "rank_3": "Late-night strategy debate in the war tent over wine and leyline charts.",
+        "rank_4": "Rank 4 CG: Leaning close across the illuminated war table in her cropped crimson top, pledging her sword to your unified strategy: 'My blade has answered to the Crown. Tonight, Commander, all that I am answers to our shared vision.'"
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dawn_queen/state_a_battle.png",
+        "state_b_worn": "characters/dawn_queen/state_b_worn.png",
+        "state_c_camp": "characters/dawn_queen/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dawn_queen_cutin.png",
+      "bust_path": "ui/advisors/dawn_queen_bust.png"
+    },
+    {
+      "id": "dawn_rook",
+      "name": "Sir Brannoch Haldane",
+      "title": "The Alabaster Bastion",
+      "faction": "dawn",
+      "role": "Bastion Warden",
+      "piece_type": "rook",
+      "gender": "male",
+      "age": 42,
+      "visuals": "Towering, heavily muscled veteran knight with a strong jaw, warm brown eyes, and braided hair.",
+      "wardrobe": {
+        "state_a_battle": "Heavy white enamel plate armor, winged pauldrons, sleeveless chain-and-leather arming harness showing powerful biceps, colossal prism-tower shield.",
+        "state_b_worn": "Dented shield face, cracked chestplate exposing his scarred pecs and leather harness straps, standing unyielding like an immovable rampart.",
+        "state_c_camp": "Open-chested linen vest with leather arm braces, carving wood figurines for his squad."
+      },
+      "lore": {
+        "homeland": "High Pass of Solhaven",
+        "secret": "Carves the names of fallen squires into the interior frame of his shield; sworn to guard his niece Tamsin above all else."
+      },
+      "bond_arc": {
+        "rank_1": "Armor maintenance and sharing defensive battle history.",
+        "rank_2": "Sharing stories of border defense and his philosophical outlook on survival.",
+        "rank_3": "Expressing his protective fears for the vanguard frontlines.",
+        "rank_4": "Oath of Fellowship: Swearing an unbreakable shield-oath as your sworn protector."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dawn_rook/state_a_battle.png",
+        "state_b_worn": "characters/dawn_rook/state_b_worn.png",
+        "state_c_camp": "characters/dawn_rook/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dawn_rook_cutin.png",
+      "bust_path": "ui/advisors/dawn_rook_bust.png"
+    },
+    {
+      "id": "dawn_bishop",
+      "name": "Ilyara Quen",
+      "title": "The Prism Oracle",
+      "faction": "dawn",
+      "role": "High Seeress",
+      "piece_type": "bishop",
+      "gender": "female",
+      "age": 26,
+      "visuals": "Flowing silver hair cascading past her waist, luminous sapphire eyes, lush curvy figure with a remarkably full bust, porcelain skin, and a poised, alluringly serene demeanor.",
+      "wardrobe": {
+        "state_a_battle": "Celestial-blue and white arcanist vestments featuring a halter-neck silk bodice with a wide diamond keyhole cutout that frames deep cleavage, and a high-cut cropped hem that leaves the lower curves of her underboob openly visible above a runic silver navel chain. Below her waist, a dual-slit sheer silk wrap skirt parts completely over her hips to showcase tight, glossy pearl-blue thigh-high stockings clasped by silver astrolabe garters, accompanied by a floating prism crystal staff.",
+        "state_b_worn": "Halter bodice frayed and loosened so her cleavage and exposed underboob strain against the thin silver runic straps; one side of her sheer wrap skirt burned away by arcane backlash, tight thigh-high stockings ripped at the knee, luminous blue Aether sparks dancing across her bare midriff and thighs.",
+        "state_c_camp": "Translucent sapphire silk night-wrap worn over a cropped white lace bralette that bares her underboob and deep cleavage, paired with a tiny pleated sleep-skirt and sheer white thigh-high stockings as she reads star charts by candlelight."
+      },
+      "lore": {
+        "homeland": "Prism Observatory, Solhaven",
+        "secret": "Born with rare ley-attunement that allows her to perceive arcane currents directly through her skin, causing flushed warmth and physical strain during heavy sorcery."
+      },
+      "bond_arc": {
+        "rank_1": "Reading celestial coordinates and the harmonics of the monoliths.",
+        "rank_2": "Explaining the unstable nature of the Aether wellsprings and her physical strain.",
+        "rank_3": "Calibrating her astrolabe together in her candlelit pavilion.",
+        "rank_4": "Rank 4 CG: Unveiling the true ancient map of Eltheris together as starlight reflects off her sheer sapphire vestments."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dawn_bishop/state_a_battle.png",
+        "state_b_worn": "characters/dawn_bishop/state_b_worn.png",
+        "state_c_camp": "characters/dawn_bishop/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dawn_bishop_cutin.png",
+      "bust_path": "ui/advisors/dawn_bishop_bust.png"
+    },
+    {
+      "id": "dawn_knight",
+      "name": "Kestrel Rowan",
+      "title": "Skyfall",
+      "faction": "dawn",
+      "role": "Cavalier-Captain",
+      "piece_type": "knight",
+      "gender": "female",
+      "age": 23,
+      "visuals": "Toned, athletic hourglass build with long legs and a shapely bust, copper-red short windblown hair, vibrant green eyes, and a teasing, confident smirk.",
+      "wardrobe": {
+        "state_a_battle": "Aerodynamic pearl-and-silver cropped cavalry breastplate molded tightly to her bust with an open plunging center channel for deep cleavage and a high cut exposing toned ribs and subtle underboob. Wears an ultra-short pleated navy riding micro-skirt, skintight white-and-gold striped thigh-high compression stockings with leather thigh-holster garters, feather-crested helm at her hip, and lance-sword.",
+        "state_b_worn": "Central chest buckle popped open, widening the gap of her cropped breastplate over her cleavage and underboob; pleated riding micro-skirt frayed high on the hip, tight thigh-high stockings scuffed and torn along the outer thigh, flashing a defiant grin despite the pressure.",
+        "state_c_camp": "Unzipped cropped leather flight jacket worn with nothing underneath save a tight bandeau top that leaves her cleavage and underboob framed in leather, paired with a micro-skirt and tight thigh-high riding socks while feeding her war-griffin Pennant."
+      },
+      "lore": {
+        "homeland": "Aerie of Solhaven",
+        "secret": "Her elder sibling disappeared during an earlier reconnaissance mission over the Thronefield rift."
+      },
+      "bond_arc": {
+        "rank_1": "Griffin aerial maneuvers and wind currents display.",
+        "rank_2": "Tactical flanking lectures and border patrol recollections.",
+        "rank_3": "Sharing personal memories of her lost sibling and why she refuses to abandon comrades.",
+        "rank_4": "Rank 4 CG: A windswept dawn flight salute overlooking the Thronefield, her cropped riding jacket fluttering open in the updraft."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dawn_knight/state_a_battle.png",
+        "state_b_worn": "characters/dawn_knight/state_b_worn.png",
+        "state_c_camp": "characters/dawn_knight/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dawn_knight_cutin.png",
+      "bust_path": "ui/advisors/dawn_knight_bust.png"
+    },
+    {
+      "id": "dawn_pawn_lead",
+      "name": "Tamsin Haldane",
+      "title": "Maiden of the First File",
+      "faction": "dawn",
+      "role": "Vanguard Sworn Lead",
+      "piece_type": "pawn",
+      "gender": "female",
+      "age": 20,
+      "visuals": "Honey-blonde braided hair, wide determined amber eyes, youthful yet surprisingly curvy figure with a full bust and shapely thighs.",
+      "wardrobe": {
+        "state_a_battle": "Polished steel half-cuirass worn over a tight white linen corset-blouse with a low scooped neckline showing ample cleavage, paired with a short pleated white-and-gold vanguard miniskirt, tight white thigh-high stockings with leather garter straps, buckler shield, and short spear.",
+        "state_b_worn": "Half-cuirass bottom rim bent upward and linen blouse torn beneath her bust to reveal flushed underboob and deep cleavage; pleated miniskirt tattered, white thigh-high stockings torn and mud-splattered as she holds the line.",
+        "state_c_camp": "Off-the-shoulder cropped squire's blouse exposing her collarbones, cleavage, and midriff, paired with a short pleated skirt and tight knee-high stockings.",
+        "state_d_promoted": "Solar Ascension (Radiant Paladin Form): Upon reaching Rank 8, ascends into glamorous Valkyrie Paladin regalia—gleaming golden wing-cupped bikini-cuirass framing both deep cleavage and bare underboob, a radiant sheer golden hip-sash over a micro-skirt, immaculate white-and-gold lace thigh-high stockings, and a runic winged spear!"
+      },
+      "lore": {
+        "homeland": "Solhaven Farmlands",
+        "secret": "Volunteered for the dangerous vanguard to pay off her village's grain tariff and prove her uncle Brannoch's faith in her."
+      },
+      "bond_arc": {
+        "rank_1": "Spear drills and camp cooking duties.",
+        "rank_2": "Admitting her fear of being cast into the Quiet.",
+        "rank_3": "Private tactical sparring where she masters the advance shield step.",
+        "rank_4": "Oath of Allegiance: Swearing her spear to your personal vanguard detachment."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dawn_pawn_lead/state_a_battle.png",
+        "state_b_worn": "characters/dawn_pawn_lead/state_b_worn.png",
+        "state_c_camp": "characters/dawn_pawn_lead/state_c_camp.png",
+        "state_d_promoted": "characters/dawn_pawn_lead/state_d_promoted.png"
+      },
+      "cutin_path": "cutins/dawn_pawn_lead_cutin.png",
+      "promoted_cutin_path": "cutins/dawn_pawn_lead_promoted_cutin.png",
+      "bust_path": "ui/advisors/dawn_pawn_lead_bust.png"
+    },
+    {
+      "id": "dusk_king",
+      "name": "Malachar Voss",
+      "title": "The Ashen Crown",
+      "faction": "dusk",
+      "role": "Sovereign",
+      "piece_type": "king",
+      "gender": "male",
+      "age": 45,
+      "visuals": "Lean, aristocratic muscular build, jet-black hair with silver temples, sharp grey-violet eyes, thin duel scar across his left brow.",
+      "wardrobe": {
+        "state_a_battle": "Midnight-black plate armor trimmed with silver filigree, open-collar velvet mantle revealing a runic brand over his sternum, circlet of dusk-steel.",
+        "state_b_worn": "Mantle torn, breastplate cracked open across his chest with dark energy smoking around his ribs, eyes glowing with unyielding resolve.",
+        "state_c_camp": "Unbuttoned charcoal silk imperial coat draped over his shoulders, reviewing diplomatic missives by candlelight."
+      },
+      "lore": {
+        "homeland": "Umbral Peak, Umbrenholt",
+        "secret": "Seeks to end the recurrent sacrifices of the Rite once and for all, bearing the weight of past failures in silence."
+      },
+      "bond_arc": {
+        "rank_1": "Statecraft debates and imperial diplomatic history.",
+        "rank_2": "Analyzing past campaign mistakes and the hollow nature of territorial conquest.",
+        "rank_3": "Examining ancient concord scrolls and the corrupted runes beneath the stone.",
+        "rank_4": "Oath of Fellowship: Declaring you the Arch-Strategist of Umbrenholt."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dusk_king/state_a_battle.png",
+        "state_b_worn": "characters/dusk_king/state_b_worn.png",
+        "state_c_camp": "characters/dusk_king/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dusk_king_cutin.png",
+      "bust_path": "ui/advisors/dusk_king_bust.png"
+    },
+    {
+      "id": "dusk_queen",
+      "name": "Nyssara Vael",
+      "title": "The Velvet Blade",
+      "faction": "dusk",
+      "role": "Regent",
+      "piece_type": "queen",
+      "gender": "female",
+      "age": 28,
+      "visuals": "Sultry, aristocratic beauty with a lavish hourglass figure, glossy raven hair bound in an intricate braided crown, bedroom-lidded violet eyes, beauty mark beneath her left eye, and a calculating, seductive expression.",
+      "wardrobe": {
+        "state_a_battle": "Articulated obsidian scale-corset engineered with a dramatic plunging V-neckline to the sternum and high-arched underwire cups that leave the plush lower curves of her underboob bare above a silver filigree belly-chain. She wears a skin-tight, high-slit black velvet micro-skirt, sheer black lace-top thigh-high stockings held taut by silver spider-lily garter straps across her creamy thighs, stilettos of dark steel, and wields a flexible dusk-steel whip-blade.",
+        "state_b_worn": "Obsidian scale-corset unhooked at the center and fractured along the lower rim, dramatically exposing her full cleavage and bare underboob; velvet micro-skirt split open to the hip bone, sheer black stockings shredded with long vertical runs, breathing heavily with lethal focus.",
+        "state_c_camp": "Sheer plum-and-black lace negligee corset paired with a cropped velvet bolero that leaves her underboob and deep cleavage on full display, matched with a micro-skirt, silver garter belt, and sheer black thigh-high stockings while sipping black tea over intelligence reports."
+      },
+      "lore": {
+        "homeland": "Obsidian Spire, Umbrenholt",
+        "secret": "Rose through the state intelligence network by tactical brilliance and unyielding discipline; determined to protect her homeland from ruin."
+      },
+      "bond_arc": {
+        "rank_1": "Counter-espionage review and decoding intercepted messages.",
+        "rank_2": "Analyzing enemy officer psychologies and personal vulnerabilities.",
+        "rank_3": "Personal reflections on leadership isolation and the burden of shadows.",
+        "rank_4": "Rank 4 CG: Standing shoulder-to-shoulder by the candlelit war map in her sheer plum corset, her fingers brushing yours on the obsidian pieces: 'Few understand the burden of holding a realm together from the shadows. With you, Commander, I never stand alone.'"
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dusk_queen/state_a_battle.png",
+        "state_b_worn": "characters/dusk_queen/state_b_worn.png",
+        "state_c_camp": "characters/dusk_queen/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dusk_queen_cutin.png",
+      "bust_path": "ui/advisors/dusk_queen_bust.png"
+    },
+    {
+      "id": "dusk_rook",
+      "name": "Dravok Kell",
+      "title": "The Iron Citadel",
+      "faction": "dusk",
+      "role": "Warden",
+      "piece_type": "rook",
+      "gender": "male",
+      "age": 48,
+      "visuals": "Grizzled, barrel-chested veteran warrior, iron-grey beard, glowing violet runic brands along his muscular forearms and chest.",
+      "wardrobe": {
+        "state_a_battle": "Heavy dark iron fortress-plate over a bare-chested leather gladiator harness, massive twin pauldrons, gravity-infused two-handed warhammer.",
+        "state_b_worn": "Cracked shoulder plates, glowing violet runes pulsing across his scarred torso under heavy strain, immovable posture.",
+        "state_c_camp": "Sleeveless leather harness vest, sharpening weapons with a whetstone."
+      },
+      "lore": {
+        "homeland": "Iron Crags of Umbrenholt",
+        "secret": "A veteran of thirty border skirmishes who shields the younger vanguard levies like his own kin."
+      },
+      "bond_arc": {
+        "rank_1": "Forge maintenance and heavy defensive weapon theory.",
+        "rank_2": "Recounting historical skirmishes along the chasm rim.",
+        "rank_3": "Sharing his fears for the young conscripts sent to the monoliths.",
+        "rank_4": "Oath of Fellowship: Swearing his gravity hammer in eternal allegiance to your vanguard."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dusk_rook/state_a_battle.png",
+        "state_b_worn": "characters/dusk_rook/state_b_worn.png",
+        "state_c_camp": "characters/dusk_rook/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dusk_rook_cutin.png",
+      "bust_path": "ui/advisors/dusk_rook_bust.png"
+    },
+    {
+      "id": "dusk_bishop",
+      "name": "Veyra Thorne",
+      "title": "The Lantern Arcanist",
+      "faction": "dusk",
+      "role": "Moonweaver Seer",
+      "piece_type": "bishop",
+      "gender": "female",
+      "age": 25,
+      "visuals": "Lavender-silver hair falling past her hips, hypnotic violet eyes, voluptuous figure with a heavy bust and narrow waist, pale moonlit skin, and a mysterious, velvety presence.",
+      "wardrobe": {
+        "state_a_battle": "Dark violet cropped hooded bolero mantle that covers her shoulders while framing a criss-cross silver ribbon corset-bra—showcasing both deep cleavage above and generous bare underboob below. She wears a tiered, sheer amethyst chiffon miniskirt with dual hip cutouts and skintight black-and-violet thigh-high stockings fastened with crescent-moon garters, holding a hovering celestial moon-lantern staff.",
+        "state_b_worn": "Hood fallen back, ribbon corset-bra loosened so her cleavage and bare underboob press against the frayed silver cords; sheer amethyst miniskirt singed away along one thigh, tight stockings torn, violet ward-light illuminating her curves.",
+        "state_c_camp": "Cropped lavender silk tie-front top that leaves a wide gap of cleavage and exposed underboob, paired with a ruffled black lace micro-skirt and sheer violet thigh-high stockings while examining shadow-astronomy charts."
+      },
+      "lore": {
+        "homeland": "Moonweave Sanctum, Umbrenholt",
+        "secret": "Specializes in detecting dimensional disturbances; was the first in Umbrenholt to notice the Hollow destabilizing."
+      },
+      "bond_arc": {
+        "rank_1": "Deciphering leyline tremors and celestial night charts.",
+        "rank_2": "Sharing observations on the Quiet and trapped life essence leaking into the abyss.",
+        "rank_3": "Aligning lantern optics and resonant frequencies in her tent.",
+        "rank_4": "Rank 4 CG: Uncovering the rift's resonance frequency together under the warm glow of her moon-lantern."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dusk_bishop/state_a_battle.png",
+        "state_b_worn": "characters/dusk_bishop/state_b_worn.png",
+        "state_c_camp": "characters/dusk_bishop/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dusk_bishop_cutin.png",
+      "bust_path": "ui/advisors/dusk_bishop_bust.png"
+    },
+    {
+      "id": "dusk_knight",
+      "name": "Kaelen Ashfang",
+      "title": "The Nightrunner",
+      "faction": "dusk",
+      "role": "Huntress-Captain",
+      "piece_type": "knight",
+      "gender": "female",
+      "age": 24,
+      "visuals": "Lithe yet busty and curvy huntress build, wild raven hair tied with silver cords, amber wolf-like eyes, sun-bronzed skin, and a fierce predatory gaze.",
+      "wardrobe": {
+        "state_a_battle": "Minimalist dark leather scout-harness featuring an open-front cross-strapped chest piece that frames deep cleavage and rises high under the bust to bare her toned underboob and abs. Below, she wears a fringed black leather micro-skirt, tight fishnet-and-leather thigh-high stockings with clawed silver garter clasps, paired curved dusk-blades, mounted on the shadow-wolf Gloam.",
+        "state_b_worn": "Leather chest strap sliced diagonally, barely containing her cleavage and exposed underboob; leather micro-skirt torn at the thigh, tight stockings ripped by shrapnel, crouched low with blades ready to counter-strike.",
+        "state_c_camp": "Fur-trimmed cropped leather vest worn open over a tight black band that exposes both upper cleavage and lower underboob, paired with a micro-skirt and tight thigh-high stockings while grooming her wolf mount by the campfire."
+      },
+      "lore": {
+        "homeland": "Northern Border Thickets, Umbrenholt",
+        "secret": "Raised among the northern border scouts, she values honesty, loyalty, and decisive battlefield action above high court politics."
+      },
+      "bond_arc": {
+        "rank_1": "Scouting perimeter defenses and wolf tracking signs.",
+        "rank_2": "Hunting rations in the gorge and sharing campfire stories.",
+        "rank_3": "Sharing clan tracking lore and the hidden pathways around the chasm.",
+        "rank_4": "Rank 4 CG: Joint patrol watching the perimeter at nightfall, seated close beside you on a rock outcrop."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dusk_knight/state_a_battle.png",
+        "state_b_worn": "characters/dusk_knight/state_b_worn.png",
+        "state_c_camp": "characters/dusk_knight/state_c_camp.png"
+      },
+      "cutin_path": "cutins/dusk_knight_cutin.png",
+      "bust_path": "ui/advisors/dusk_knight_bust.png"
+    },
+    {
+      "id": "dusk_pawn_lead",
+      "name": "Sorrel Nightwick",
+      "title": "The Vanguard Scribe",
+      "faction": "dusk",
+      "role": "Vanguard Sworn Lead",
+      "piece_type": "pawn",
+      "gender": "female",
+      "age": 21,
+      "visuals": "Sharp-witted cartographer and field scribe, dark-crimson braided hair, expressive hazel eyes behind half-rim spectacles, petite waist with a surprisingly lush bust and curvy hips.",
+      "wardrobe": {
+        "state_a_battle": "Dark enameled underbust corset worn over a cropped charcoal silk blouse with an unbuttoned plunging neckline (displaying deep cleavage) and a high-cut hem that reveals a teasing strip of underboob when she raises her sword-arm. Paired with a short pleated plaid-and-black vanguard miniskirt, tight opaque black thigh-high stockings with leather garter straps, light buckler, short arming sword, and map case.",
+        "state_b_worn": "Spectacles slightly askew, buttons popped on her cropped blouse exposing generous cleavage and underboob above her unbuckled corset; pleated miniskirt torn and ink-stained, tight black thigh-high stockings ripped at the knee as she holds ground alongside her squad.",
+        "state_c_camp": "Unbuttoned cropped white dress shirt tied high above her midriff—showing deep cleavage and underboob—paired with a short pleated black skirt and tight thigh-high stockings while updating field maps.",
+        "state_d_promoted": "Umbral Coronation (Grand Field Strategist Form): Upon promotion on Rank 1, ascends into Shadow Valkyrie Strategist regalia—glossy obsidian-and-silver bikini breastplate framing deep cleavage and bare underboob, a high-slit velvet marshal's cape-skirt, sheer lace-top stockings with dual garters, and a runic command blade!"
+      },
+      "lore": {
+        "homeland": "Lower Archives of Umbral Peak",
+        "secret": "Stole duplicate copies of the original First Concord treaty, realizing clauses regarding the Quiet were systematically redacted."
+      },
+      "bond_arc": {
+        "rank_1": "Cartography reviews and drafting topographic maps.",
+        "rank_2": "Dissecting discrepancies in the official Thronefield records.",
+        "rank_3": "Late-night document restoration in her research pavilion.",
+        "rank_4": "Oath of Allegiance: Swearing her cartographic quill and command blade to your joint cause."
+      },
+      "sprite_paths": {
+        "state_a_battle": "characters/dusk_pawn_lead/state_a_battle.png",
+        "state_b_worn": "characters/dusk_pawn_lead/state_b_worn.png",
+        "state_c_camp": "characters/dusk_pawn_lead/state_c_camp.png",
+        "state_d_promoted": "characters/dusk_pawn_lead/state_d_promoted.png"
+      },
+      "cutin_path": "cutins/dusk_pawn_lead_cutin.png",
+      "promoted_cutin_path": "cutins/dusk_pawn_lead_promoted_cutin.png",
+      "bust_path": "ui/advisors/dusk_pawn_lead_bust.png"
+    }
+  ]
+}

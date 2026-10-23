@@ -1,0 +1,125 @@
+{
+  "advisor_callouts": {
+    "dawn_queen": {
+      "offense": [
+        "Strike true, Commander! Break their vanguard before they can consolidate.",
+        "My rapier is primed. Direct our force toward the opening!",
+        "Do not hesitate! Seize the initiative while their flank is exposed."
+      ],
+      "check": [
+        "Their Sovereign is pinned! Press the advantage and allow no reprieve!",
+        "Sunlight pierces their guard! Keep up the pressure!"
+      ],
+      "tactical_trap": [
+        "They overreached. Fall upon them before they recover."
+      ]
+    },
+    "dusk_queen": {
+      "offense": [
+        "A delicate fracture in their line. Let us widen it.",
+        "Precision, Commander. One clean cut will dismantle their defense.",
+        "Step through the shadow; their flank is entirely ours."
+      ],
+      "check": [
+        "Their King falters in the dark. Tighten the noose.",
+        "A lethal check! Do not give them room to breathe."
+      ],
+      "tactical_trap": [
+        "They walk straight into our web. Strike now."
+      ]
+    },
+    "dawn_rook": {
+      "defense": [
+        "Hold the center! We stand as an immovable bulwark.",
+        "My shield covers the advance. Do not overextend without support.",
+        "Solid footing first, Commander. The stones belong to Solhaven."
+      ],
+      "reinforce": [
+        "I will hold this file with my life. Keep the King secure!"
+      ]
+    },
+    "dusk_rook": {
+      "defense": [
+        "Iron does not yield! Let them break their blades against our armor.",
+        "Anchored and unyielding. Keep the line tight.",
+        "The gravity wells hold. Stand firm behind my hammer."
+      ],
+      "reinforce": [
+        "I will hold the defile. Move when you are ready, Commander."
+      ]
+    },
+    "dawn_bishop": {
+      "geometry": [
+        "The leylines align. A diagonal corridor opens to their heart.",
+        "Prism light refracts across their ranks—strike along the silver vector!",
+        "A dual fracture in their formation. The stars favor our stride."
+      ],
+      "foresight": [
+        "I sense their tremor before they move. Heed the astral path."
+      ]
+    },
+    "dusk_bishop": {
+      "geometry": [
+        "Shadow bends along the diagonals. Their path is bound.",
+        "The moon-lantern reveals an uncovered angle. Tread lightly.",
+        "Leyline resonance peaks here. A fork awaits our command."
+      ],
+      "foresight": [
+        "The shadows whisper their intention. Prepare the counter."
+      ]
+    }
+  },
+  "worn_state_reactions": {
+    "dawn_queen": "Gh... armor cracked?! It will take far more than shattered plate to break my resolve! Sunburst, answer me!",
+    "dusk_queen": "Tch... they breached my scale-corset? How bold... Now you have truly earned my unvarnished wrath.",
+    "dawn_rook": "My shield holds, even if the plate gives way! Fall in behind me!",
+    "dusk_rook": "Hah! Just a scratch on iron. My hammer still weighs eighty stone!",
+    "dawn_bishop": "Ah...! Arcane backlash... the Aether burns through my vestments... but my sight remains clear!",
+    "dusk_bishop": "The lantern flickers... ribbons frayed... yet the shadow still answers my call.",
+    "dawn_knight": "Buckle popped?! Ha, lighter weight just makes me fly faster!",
+    "dusk_knight": "Torn leather won't dull my fangs. Ready to counter-strike, Gloam!",
+    "dawn_pawn_lead": "Ah! M-My blouse... no, I won't retreat! Maiden of the First File stands firm!",
+    "dusk_pawn_lead": "My map case... and my buttons popped! I'll redraw this battle lines in their blood!",
+    "dawn_king": "A king bleeds alongside his sworn vanguard. Stand firm, sons and daughters of Solhaven!",
+    "dusk_king": "Darkness deepens around us. We have endured worse than shattered steel."
+  },
+  "promotion_callouts": {
+    "dawn_pawn_lead": "Lumen light awakens within me! From the humble first file, I ascend as Solhaven's Radiant Paladin!",
+    "dusk_pawn_lead": "The redacted clauses are unlocked! By Umbral decree, I take command as Grand Field Strategist!"
+  },
+  "spells": {
+    "chrono_pulse": {
+      "dawn": "By the sacred chronometer of Dawn, reverse the flow of the stone!",
+      "dusk": "Rewind the shadow's path. Time bows to the Concord!"
+    },
+    "oracle_gaze": {
+      "dawn": "Prism light illuminates the horizon—witness their impending strike!",
+      "dusk": "Moon-lantern illuminate the void—their secret design is laid bare!"
+    },
+    "aegis_ward": {
+      "dawn": "Aegis of Solhaven! An unbreakable solar barrier encloses our champion!",
+      "dusk": "Umbral Aegis! Gravity bends around them; no blade may touch this ground!"
+    },
+    "marshals_advance": {
+      "dawn": "Vanguard Sworn, surge forward! The Sunblade clears your stride!",
+      "dusk": "Shadow march! Advance without breaking the cadence of war!"
+    }
+  },
+  "match_outcomes": {
+    "victory_dawn": [
+      "The sun rises over the Thronefield. Solhaven claims the monolith!",
+      "Flawless tactical execution, Commander. The leylines are ours."
+    ],
+    "victory_dusk": [
+      "The veil of night settles over the stone. Umbrenholt stands victorious.",
+      "A masterstroke from the shadows. The field is won."
+    ],
+    "defeat": [
+      "Our line has fractured... Sound the retreat to camp before the Quiet takes us all.",
+      "The monoliths fall silent. We must regroup in the war tent."
+    ],
+    "stalemate": [
+      "Neither blade nor shadow yields. The monoliths reset in eternal balance."
+    ]
+  }
+}

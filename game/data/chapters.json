@@ -1,0 +1,376 @@
+{
+  "prologue": {
+    "id": "prologue",
+    "title": "The Night Ashgate Burned",
+    "scenes": [
+      {
+        "id": "scene_1",
+        "title": "The Diplomatic Summit",
+        "bg": "bg/bg_ashgate_hall.png",
+        "cg": "cgs/cg_01_ashgate_climax.png",
+        "summary": "At the neutral border citadel of Ashgate, Grand Marshal Lysandra and Regent Nyssara negotiate trade and Aether limits under the watchful eyes of Kings Aurelian and Malachar."
+      },
+      {
+        "id": "scene_2",
+        "title": "The Sabotage",
+        "bg": "bg/bg_ashgate_hall.png",
+        "summary": "An ancient conduit beneath the hall detonates. Faceless constructs swarm the council chamber as Lysandra and Nyssara fight back-to-back to secure their sovereigns' retreat."
+      },
+      {
+        "id": "scene_3",
+        "title": "The Monoliths Rise",
+        "bg": "bg/bg_thronefield_dawn.png",
+        "cg": "cgs/cg_02_monoliths_rise.png",
+        "summary": "Sixty-four colossal monolith slabs rise from the chasm. The ancient automaton Arbiter decrees open warfare barred: the dispute must be settled in the Rite of Sixty-Four Thrones."
+      }
+    ],
+    "branch_choice": {
+      "prompt": "Choose which faction's grand campaign to command:",
+      "options": [
+        {
+          "id": "dawn",
+          "faction": "House Aurelis (Dawn / White)",
+          "commander": "Grand Marshal Lysandra Verel"
+        },
+        {
+          "id": "dusk",
+          "faction": "The Umbrenholt Dominion (Dusk / Black)",
+          "commander": "Regent Nyssara Vael"
+        }
+      ]
+    }
+  },
+  "dawn_campaign": [
+    {
+      "chapter": 1,
+      "id": "dawn_ch1",
+      "title": "First Light on the Stone",
+      "bg_battle": "bg/bg_thronefield_dawn.png",
+      "bg_camp": "bg/bg_war_tent_dawn.png",
+      "player_char": "dawn_queen",
+      "boss_char": "dusk_queen",
+      "boss_profile": "reckless_vanguard",
+      "boss_elo": 350,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Tactical Opening: Capture 3 enemy pieces OR advance a vanguard pawn past the midline.",
+      "concord_trigger": "Spare the retreating conscripts after securing the forward line (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy pushes forward pawns recklessly without layered support; punish exposed files."
+    },
+    {
+      "chapter": 2,
+      "id": "dawn_ch2",
+      "title": "Wings in the Updraft",
+      "bg_battle": "bg/bg_thronefield_dawn.png",
+      "bg_camp": "bg/bg_war_tent_dawn.png",
+      "player_char": "dawn_knight",
+      "boss_char": "dusk_knight",
+      "boss_profile": "flank_hunter",
+      "boss_elo": 420,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Cavalry Maneuver: Capture an enemy Knight OR execute a Tactical Fork.",
+      "concord_trigger": "Execute an aerial recon sweep and recover the lost scout cipher (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy favors rapid Knight flank excursions; counter with solid central pawn pushes."
+    },
+    {
+      "chapter": 3,
+      "id": "dawn_ch3",
+      "title": "The Bastion of Dawn",
+      "bg_battle": "bg/bg_thronefield_dawn.png",
+      "bg_camp": "bg/bg_war_tent_dawn.png",
+      "player_char": "dawn_rook",
+      "boss_char": "dusk_rook",
+      "boss_profile": "iron_warden",
+      "boss_elo": 480,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Fortified Defense: Endure 12 turns OR capture an enemy Rook on an open file.",
+      "concord_trigger": "Refrain from executing routed border guards (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy heavily fortifies their back ranks with Rooks; vulnerable to long-range Bishop diagonals."
+    },
+    {
+      "chapter": 4,
+      "id": "dawn_ch4",
+      "title": "The Prism Observatory",
+      "bg_battle": "bg/bg_prism_observatory.png",
+      "bg_camp": "bg/bg_quarters_dawn.png",
+      "player_char": "dawn_bishop",
+      "boss_char": "dusk_bishop",
+      "boss_profile": "diagonal_sniper",
+      "boss_elo": 540,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Seer's Insight: Win while keeping at least 1 Bishop active.",
+      "concord_trigger": "Record the ancient glyph cipher without destroying the observatory optics (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy concentrates on Bishop diagonals; close-quarters Knight maneuvers can break their lines."
+    },
+    {
+      "chapter": 5,
+      "id": "dawn_ch5",
+      "title": "The Sunken Foundry",
+      "bg_battle": "bg/bg_sunken_foundry.png",
+      "bg_camp": "bg/bg_war_tent_dawn.png",
+      "player_char": "dawn_pawn_lead",
+      "boss_char": "dusk_pawn_lead",
+      "boss_profile": "hollow_raider",
+      "boss_elo": 600,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Restraint: Win within 25 moves and spare the enemy vanguard detachment.",
+      "concord_trigger": "Salvage the original Concord treaty fragment from the drowned archive (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy trades aggressively on any capture; use tactical bait and defended squares."
+    },
+    {
+      "chapter": 6,
+      "id": "dawn_ch6",
+      "title": "The Sovereign's Oath",
+      "bg_battle": "bg/bg_thronefield_dawn.png",
+      "bg_camp": "bg/bg_quarters_dawn.png",
+      "player_char": "dawn_king",
+      "boss_char": "dusk_king",
+      "boss_profile": "regicide_assassin",
+      "boss_elo": 650,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Royal Escort: Checkmate the opponent while maintaining Sovereign safety.",
+      "concord_trigger": "Present proof of the failing seal to Emperor Malachar (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy relentlessly pursues checks even at severe positional expense; prepare counter-strikes."
+    },
+    {
+      "chapter": 7,
+      "id": "dawn_ch7",
+      "title": "Parley at the River",
+      "bg_battle": "bg/bg_river_parley.png",
+      "bg_camp": "bg/bg_war_tent_dawn.png",
+      "cg": "cgs/cg_03_river_parley.png",
+      "player_char": "dawn_queen",
+      "boss_char": "dusk_queen",
+      "boss_profile": "rival_queen",
+      "boss_elo": 700,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Honorable Bout: Win or reach Turn 20 without losing your Queen.",
+      "concord_trigger": "Share the unredacted treaty clause with Regent Nyssara during the parley (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Regent Nyssara launches aggressive Queen sorties; lure her into development traps."
+    },
+    {
+      "chapter": 8,
+      "id": "dawn_ch8",
+      "title": "The Final Dawnstone",
+      "bg_battle": "bg/bg_thronefield_eclipse.png",
+      "bg_camp": "bg/bg_war_tent_dawn.png",
+      "player_char": "dawn_queen",
+      "boss_char": "dusk_queen",
+      "boss_profile": "grand_command",
+      "boss_elo": 750,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "objective": "Climax: Deliver Checkmate to the enemy Sovereign. If Concord >= 3, choose 'Cease Hostilities'!",
+      "concord_trigger": "Halt the finishing blow when the seal ruptures (Triggers The Unbroken Concord).",
+      "concord_points": 1,
+      "recon_notes": "Grandmaster balanced play; watch for early signals in battlefield parley dialogues."
+    }
+  ],
+  "dusk_campaign": [
+    {
+      "chapter": 1,
+      "id": "dusk_ch1",
+      "title": "Lanterns in the Gorge",
+      "bg_battle": "bg/bg_thronefield_dusk.png",
+      "bg_camp": "bg/bg_war_tent_dusk.png",
+      "player_char": "dusk_queen",
+      "boss_char": "dawn_queen",
+      "boss_profile": "reckless_vanguard",
+      "boss_elo": 350,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Tactical Opening: Capture 3 enemy pieces OR advance a vanguard pawn past the midline.",
+      "concord_trigger": "Spare the retreating conscripts after securing the forward line (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy pushes forward pawns recklessly without layered support; punish exposed files."
+    },
+    {
+      "chapter": 2,
+      "id": "dusk_ch2",
+      "title": "Shadows in the Basin",
+      "bg_battle": "bg/bg_thronefield_dusk.png",
+      "bg_camp": "bg/bg_war_tent_dusk.png",
+      "player_char": "dusk_knight",
+      "boss_char": "dawn_knight",
+      "boss_profile": "flank_hunter",
+      "boss_elo": 420,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Cavalry Maneuver: Capture an enemy Knight OR execute a Tactical Fork.",
+      "concord_trigger": "Track anomalous rift energy signatures and log the findings (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy favors rapid Knight flank excursions; counter with solid central pawn pushes."
+    },
+    {
+      "chapter": 3,
+      "id": "dusk_ch3",
+      "title": "The Iron Wall",
+      "bg_battle": "bg/bg_thronefield_dusk.png",
+      "bg_camp": "bg/bg_war_tent_dusk.png",
+      "player_char": "dusk_rook",
+      "boss_char": "dawn_rook",
+      "boss_profile": "iron_warden",
+      "boss_elo": 480,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Fortified Defense: Endure 12 turns OR capture an enemy Rook on an open file.",
+      "concord_trigger": "Hold defensive positions without pursuing retreating levies (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy heavily fortifies their back ranks with Rooks; vulnerable to long-range Bishop diagonals."
+    },
+    {
+      "chapter": 4,
+      "id": "dusk_ch4",
+      "title": "Echoes in the Stone",
+      "bg_battle": "bg/bg_obsidian_archive.png",
+      "bg_camp": "bg/bg_quarters_dusk.png",
+      "player_char": "dusk_bishop",
+      "boss_char": "dawn_bishop",
+      "boss_profile": "diagonal_sniper",
+      "boss_elo": 540,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Seer's Insight: Win while keeping at least 1 Bishop active.",
+      "concord_trigger": "Detect the vitality drain from the Quiet into the abyss (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy concentrates on Bishop diagonals; close-quarters Knight maneuvers can break their lines."
+    },
+    {
+      "chapter": 5,
+      "id": "dusk_ch5",
+      "title": "The Obsidian Archive",
+      "bg_battle": "bg/bg_obsidian_archive.png",
+      "bg_camp": "bg/bg_war_tent_dusk.png",
+      "player_char": "dusk_pawn_lead",
+      "boss_char": "dawn_pawn_lead",
+      "boss_profile": "hollow_raider",
+      "boss_elo": 600,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Restraint: Win within 25 moves and spare the enemy vanguard detachment.",
+      "concord_trigger": "Recover the altered treaty clauses and share evidence (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy trades aggressively on any capture; use tactical bait and defended squares."
+    },
+    {
+      "chapter": 6,
+      "id": "dusk_ch6",
+      "title": "The Emperor's Burden",
+      "bg_battle": "bg/bg_thronefield_dusk.png",
+      "bg_camp": "bg/bg_quarters_dusk.png",
+      "player_char": "dusk_king",
+      "boss_char": "dawn_king",
+      "boss_profile": "regicide_assassin",
+      "boss_elo": 650,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Royal Escort: Checkmate the opponent while maintaining Sovereign safety.",
+      "concord_trigger": "Share the secret of the failing seal with King Aurelian (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Enemy relentlessly pursues checks even at severe positional expense; prepare counter-strikes."
+    },
+    {
+      "chapter": 7,
+      "id": "dusk_ch7",
+      "title": "Parley at the River",
+      "bg_battle": "bg/bg_river_parley.png",
+      "bg_camp": "bg/bg_war_tent_dusk.png",
+      "cg": "cgs/cg_03_river_parley.png",
+      "player_char": "dusk_queen",
+      "boss_char": "dawn_queen",
+      "boss_profile": "rival_queen",
+      "boss_elo": 700,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Honorable Bout: Win or reach Turn 20 without losing your Queen.",
+      "concord_trigger": "Verify the shared evidence of manipulation with Grand Marshal Lysandra (+1 Concord).",
+      "concord_points": 1,
+      "recon_notes": "Lysandra launches aggressive Queen sorties; lure her into development traps."
+    },
+    {
+      "chapter": 8,
+      "id": "dusk_ch8",
+      "title": "The Final Duskstone",
+      "bg_battle": "bg/bg_thronefield_eclipse.png",
+      "bg_camp": "bg/bg_war_tent_dusk.png",
+      "player_char": "dusk_queen",
+      "boss_char": "dawn_queen",
+      "boss_profile": "grand_command",
+      "boss_elo": 750,
+      "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
+      "objective": "Climax: Deliver Checkmate to the enemy Sovereign. If Concord >= 3, choose 'Cease Hostilities'!",
+      "concord_trigger": "Halt the finishing blow when the seal ruptures (Triggers The Unbroken Concord).",
+      "concord_points": 1,
+      "recon_notes": "Grandmaster balanced play; watch for early signals in battlefield parley dialogues."
+    }
+  ],
+  "grand_finale": {
+    "id": "grand_finale",
+    "title": "The Unbroken Concord",
+    "bg_battle": "bg/bg_thronefield_eclipse.png",
+    "cg": "cgs/cg_10_true_concord_finale.png",
+    "boss_name": "The Corrupted Arbiter",
+    "boss_profile": "grand_command",
+    "boss_elo": 800,
+    "initial_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "special_rules": {
+      "allied_advisors": 4,
+      "starting_aether": 5,
+      "max_aether": 5,
+      "advisors": ["Lysandra", "Nyssara", "Ilyara", "Veyra"]
+    },
+    "description": "Standing shoulder-to-shoulder on the crumbling monoliths, both courts unite their Aether to sever the corruption and permanently seal the Hollow."
+  },
+  "endings": [
+    {
+      "id": "ending_true_concord",
+      "title": "The True Concord (Golden Ending)",
+      "condition": "Concord >= 3, cease hostilities in Chapter 8, and defeat the Corrupted Arbiter in the Finale.",
+      "summary": "The Hollow is sealed forever. The champions in the Quiet are liberated unharmed. Leads to your sworn partner's Fellowship Epilogue."
+    },
+    {
+      "id": "ending_solar_dominance",
+      "title": "Solar Dominance",
+      "condition": "Dawn Campaign Chapter 8 victory with Concord < 3.",
+      "summary": "House Aurelis claims total military victory, but the rift remains unstable and the Quiet claims its toll."
+    },
+    {
+      "id": "ending_umbral_ascendancy",
+      "title": "Umbral Ascendancy",
+      "condition": "Dusk Campaign Chapter 8 victory with Concord < 3.",
+      "summary": "The Umbrenholt Dominion takes the monoliths, but the fading seal threatens future generations."
+    },
+    {
+      "id": "ending_abyssal_breach",
+      "title": "The Abyssal Breach",
+      "condition": "Defeated by the Corrupted Arbiter in the Grand Finale.",
+      "summary": "The monoliths collapse into the chasm, plunging Eltheris into an era of silence."
+    },
+    {
+      "id": "epilogue_lysandra",
+      "title": "The Sunblade's Vow",
+      "condition": "True Concord ending with Grand Marshal Lysandra at Fellowship Rank 4.",
+      "cg": "cgs/cg_04_lysandra_oath.png",
+      "summary": "A private post-war celebration in Solhaven and lifelong partnership with Grand Marshal Lysandra."
+    },
+    {
+      "id": "epilogue_nyssara",
+      "title": "The Velvet Shadow",
+      "condition": "True Concord ending with Regent Nyssara at Fellowship Rank 4.",
+      "cg": "cgs/cg_05_nyssara_oath.png",
+      "summary": "A twilight banquet at Umbral Peak and lifelong alliance from the shadows with Regent Nyssara."
+    },
+    {
+      "id": "epilogue_seers",
+      "title": "Starlight & Moonweave",
+      "condition": "True Concord ending with High Seeress Ilyara or Moonweaver Veyra at Fellowship Rank 4.",
+      "cg": "cgs/cg_06_ilyara_astrolabe.png",
+      "summary": "Establishing the Unified Astral Academy above the peaceful Thronefield alongside the Seeresses."
+    },
+    {
+      "id": "epilogue_vanguard",
+      "title": "Wings & Fangs of the Border",
+      "condition": "True Concord ending with Kestrel, Kaelen, Tamsin, or Sorrel at Fellowship Rank 4.",
+      "cg": "cgs/cg_08_kestrel_skyfall.png",
+      "summary": "Leading the unified frontier scout legions across the soaring peaks of Eltheris."
+    }
+  ]
+}
