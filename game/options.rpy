@@ -24,3 +24,24 @@ define config.enter_transition = dissolve
 define config.exit_transition = dissolve
 define config.after_load_transition = dissolve
 define config.end_game_transition = fade
+
+init python:
+    ## Build configuration for distribution
+    build.classify("**~", None)
+    build.classify("**.bak", None)
+    build.classify("**/.**", None)
+    build.classify("**/#**", None)
+    build.classify("**/thumbs.db", None)
+    build.classify("tests/**", None)
+    build.classify("tools/**", None)
+    build.classify(".pytest_cache/**", None)
+    build.classify("extracted_bible.txt", None)
+    build.classify("*.docx", None)
+    build.classify("dist/**", None)
+    build.classify("pytest.ini", None)
+
+    ## Documentation
+    build.documentation("*.txt")
+    build.documentation("*.md")
+
+

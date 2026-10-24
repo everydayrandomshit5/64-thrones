@@ -1,5 +1,30 @@
+# Byte-compiled / optimized files
 __pycache__/
+*.py[cod]
+*$py.class
 *.pyc
-.pytest_cache/
+
+# Ren'Py bytecode and save files
 *.rpyc
+*.rpyb
 *.save
+game/saves/
+game/cache/
+
+# Testing and virtual environments
+.pytest_cache/
+.env
+.venv/
+env/
+venv/
+
+# Build artifacts & releases (uploaded to GitHub Releases)
+dist/
+
+# Logs and error dumps
+*.log
+errors.txt
+traceback.txt
+log.txt
+thumbs.db
+.DS_Store

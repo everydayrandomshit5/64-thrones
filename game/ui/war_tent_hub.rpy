@@ -16,6 +16,10 @@ init python:
         def select_officer(self, char_id):
             self.selected_officer_id = char_id
             self.dialogue_msg = None
+            try:
+                renpy.restart_interaction()
+            except Exception:
+                pass
 
         def perform_counsel(self, char_id):
             if self.camp.ap >= 1:
@@ -86,7 +90,7 @@ screen war_tent_hub(tent_state):
             xsize 240 ysize 50
             background ("#4A2E68" if tent_state.active_tab == "archive" else "#201830")
             hover_background "#603A85"
-            action [SetVariable("tent_state.active_tab", "archive")]
+            action [SetField(tent_state, "active_tab", "archive"), Function(renpy.restart_interaction)]
             text "Codex Archive (0 AP)" size 20 color "#FBF8F0" align (0.5, 0.5)
 
     # -------------------------------------------------------------------------
@@ -109,7 +113,7 @@ screen war_tent_hub(tent_state):
                         xsize 440 ysize 70
                         background ("#352445" if tent_state.selected_officer_id == cid else "#221A30")
                         hover_background "#452F5A"
-                        action Function(tent_state.select_officer, cid)
+                        action [SetField(tent_state, "selected_officer_id", cid), Function(tent_state.select_officer, cid), Function(renpy.restart_interaction)]
                         hbox:
                             align (0.5, 0.5)
                             spacing 15

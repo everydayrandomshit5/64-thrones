@@ -401,6 +401,7 @@ def get_war_council_advice(
             "score": round(score_val, 2),
             "arrow_texture": arrow_texture,
             "color": color_name,
+            "color_hex": {"red": "#FF5555", "blue": "#5599FF", "violet": "#CC66FF", "gold": "#FFD700"}.get(color_name, "#EBC364"),
             "vector": {
                 "x1": x1,
                 "y1": y1,

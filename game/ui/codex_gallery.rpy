@@ -14,15 +14,31 @@ init python:
         def select_character(self, char_id):
             self.selected_char_id = char_id
             self.selected_outfit_state = "state_a_battle"
+            try:
+                renpy.restart_interaction()
+            except Exception:
+                pass
 
         def set_outfit_state(self, state):
             self.selected_outfit_state = state
+            try:
+                renpy.restart_interaction()
+            except Exception:
+                pass
 
         def view_cg(self, cg_path):
             self.fullscreen_cg = cg_path
+            try:
+                renpy.restart_interaction()
+            except Exception:
+                pass
 
         def close_cg(self):
             self.fullscreen_cg = None
+            try:
+                renpy.restart_interaction()
+            except Exception:
+                pass
 
 default codex_state = None
 
@@ -32,8 +48,13 @@ init python:
 
     def load_codex_data():
         global codex_state
+        if codex_state is not None:
+            return
         roster_path = renpy.loader.transfn("data/characters.json")
-        manifest_path = renpy.loader.transfn("../tools/art_manifest.json")
+        try:
+            manifest_path = renpy.loader.transfn("data/art_manifest.json")
+        except Exception:
+            manifest_path = renpy.loader.transfn("../tools/art_manifest.json")
         with open(roster_path, "r", encoding="utf-8") as f:
             r_data = json.load(f).get("characters", [])
         with open(manifest_path, "r", encoding="utf-8") as f:
@@ -64,15 +85,15 @@ screen codex_gallery():
             text "THE CODEX ARCHIVE & MEMORIAL" size 28 color "#EBC364" bold True
 
             button:
-                action [SetVariable("codex_state.active_subtab", "dossier")]
+                action [SetField(codex_state, "active_subtab", "dossier"), Function(renpy.restart_interaction)]
                 text "Character Dossiers & Wardrobe" size 20 color ("#FFE899" if codex_state.active_subtab == "dossier" else "#C8C0D8")
 
             button:
-                action [SetVariable("codex_state.active_subtab", "cgs")]
+                action [SetField(codex_state, "active_subtab", "cgs"), Function(renpy.restart_interaction)]
                 text "Fellowship CG Gallery" size 20 color ("#FFE899" if codex_state.active_subtab == "cgs" else "#C8C0D8")
 
             button:
-                action [SetVariable("codex_state.active_subtab", "lore")]
+                action [SetField(codex_state, "active_subtab", "lore"), Function(renpy.restart_interaction)]
                 text "Chronicles of Eltheris" size 20 color ("#FFE899" if codex_state.active_subtab == "lore" else "#C8C0D8")
 
         textbutton "Return":
@@ -97,7 +118,7 @@ screen codex_gallery():
                         xsize 340 ysize 60
                         background ("#4A2E68" if codex_state.selected_char_id == cid else "#221A30")
                         hover_background "#58387C"
-                        action Function(codex_state.select_character, cid)
+                        action [SetField(codex_state, "selected_char_id", cid), SetField(codex_state, "selected_outfit_state", "state_a_battle"), Function(renpy.restart_interaction)]
                         hbox:
                             align (0.5, 0.5)
                             spacing 10
@@ -132,26 +153,26 @@ screen codex_gallery():
                         button:
                             xsize 150 ysize 45
                             background ("#4A2E68" if codex_state.selected_outfit_state == "state_a_battle" else "#201830")
-                            action Function(codex_state.set_outfit_state, "state_a_battle")
+                            action [SetField(codex_state, "selected_outfit_state", "state_a_battle"), Function(renpy.restart_interaction)]
                             text "State A: Battle" size 14 color "#FBF8F0" align (0.5, 0.5)
 
                         button:
                             xsize 150 ysize 45
                             background ("#4A2E68" if codex_state.selected_outfit_state == "state_b_worn" else "#201830")
-                            action Function(codex_state.set_outfit_state, "state_b_worn")
+                            action [SetField(codex_state, "selected_outfit_state", "state_b_worn"), Function(renpy.restart_interaction)]
                             text "State B: Worn" size 14 color "#FBF8F0" align (0.5, 0.5)
 
                         button:
                             xsize 150 ysize 45
                             background ("#4A2E68" if codex_state.selected_outfit_state == "state_c_camp" else "#201830")
-                            action Function(codex_state.set_outfit_state, "state_c_camp")
+                            action [SetField(codex_state, "selected_outfit_state", "state_c_camp"), Function(renpy.restart_interaction)]
                             text "State C: Camp" size 14 color "#FBF8F0" align (0.5, 0.5)
 
                         if "state_d_promoted" in active_char.get("wardrobe", {}):
                             button:
                                 xsize 160 ysize 45
                                 background ("#4A2E68" if codex_state.selected_outfit_state == "state_d_promoted" else "#201830")
-                                action Function(codex_state.set_outfit_state, "state_d_promoted")
+                                action [SetField(codex_state, "selected_outfit_state", "state_d_promoted"), Function(renpy.restart_interaction)]
                                 text "State D: Ascension" size 14 color "#FFE899" align (0.5, 0.5)
 
                     $ cur_desc = active_char['wardrobe'].get(codex_state.selected_outfit_state, "")
@@ -176,7 +197,7 @@ screen codex_gallery():
                     button:
                         xsize 320 ysize 180
                         background "#221A30"
-                        action Function(codex_state.view_cg, cg["path"])
+                        action [SetField(codex_state, "fullscreen_cg", cg["path"]), Function(renpy.restart_interaction)]
                         add cg["path"] xsize 320 ysize 180 fit "cover"
 
     # -------------------------------------------------------------------------
@@ -206,5 +227,5 @@ screen codex_gallery():
         button:
             xpos 0 ypos 0 xsize 1920 ysize 1080
             background "#000000FA"
-            action Function(codex_state.close_cg)
+            action [SetField(codex_state, "fullscreen_cg", None), Function(renpy.restart_interaction)]
             add codex_state.fullscreen_cg xalign 0.5 yalign 0.5 xsize 1920 ysize 1080 fit "contain"
