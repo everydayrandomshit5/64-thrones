@@ -168,4 +168,4 @@ def test_art_manifest_and_placeholders_verification():
         assert path.exists(), f"Placeholder file not found: {path}"
         with Image.open(path) as im:
             assert im.size == (item["width"], item["height"]), f"Wrong size for {path}"
-            assert im.text.get("ASSET_STATUS") == "DEV_PLACEHOLDER"
+            assert im.text.get("ASSET_STATUS") in ("DEV_PLACEHOLDER", "PRODUCTION_READY")

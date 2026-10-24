@@ -1,0 +1,122 @@
+{
+  "version": "1.0",
+  "total_audio": 15,
+  "categories": {
+    "bgm": 7,
+    "sfx": 8
+  },
+  "audio": [
+    {
+      "path": "audio/bgm_ashgate_theme.wav",
+      "category": "bgm",
+      "title": "Summit of Ashgate (Main Theme)",
+      "duration_sec": 12.0,
+      "loop": true,
+      "description": "Regal, solemn orchestral theme with brass chords and soaring harp arpeggios."
+    },
+    {
+      "path": "audio/bgm_dawn_march.wav",
+      "category": "bgm",
+      "title": "Sunblade Vanguard (Dawn Campaign)",
+      "duration_sec": 10.0,
+      "loop": true,
+      "description": "Gallant martial march with heroic brass fanfares and driving string counterpoint."
+    },
+    {
+      "path": "audio/bgm_dusk_requiem.wav",
+      "category": "bgm",
+      "title": "Velvet Dominion (Dusk Campaign)",
+      "duration_sec": 10.0,
+      "loop": true,
+      "description": "Brooding, atmospheric minor string progression with gothic chimes."
+    },
+    {
+      "path": "audio/bgm_war_tent.wav",
+      "category": "bgm",
+      "title": "Campfire Fellowship (War Tent)",
+      "duration_sec": 12.0,
+      "loop": true,
+      "description": "Warm, peaceful acoustic harp and lute pastoral progression."
+    },
+    {
+      "path": "audio/bgm_parley.wav",
+      "category": "bgm",
+      "title": "Crossed Blades & Sworn Truth (Parley)",
+      "duration_sec": 8.0,
+      "loop": true,
+      "description": "Tense diplomatic confrontation with pulsing pizzicato and tremolo strings."
+    },
+    {
+      "path": "audio/bgm_monolith_climax.wav",
+      "category": "bgm",
+      "title": "The Unbroken Concord (Grand Climax)",
+      "duration_sec": 12.0,
+      "loop": true,
+      "description": "Epic crescendo uniting Dawn and Dusk motifs in a triumphant full orchestral finale."
+    },
+    {
+      "path": "audio/bgm_epilogue.wav",
+      "category": "bgm",
+      "title": "Eltheris Reborn (Epilogue)",
+      "duration_sec": 10.0,
+      "loop": true,
+      "description": "Gentle, lyrical piano and violin duet celebrating sworn fellowship and victory."
+    },
+    {
+      "path": "audio/sfx_piece_move.wav",
+      "category": "sfx",
+      "title": "Piece Movement",
+      "duration_sec": 0.25,
+      "description": "Crisp marble piece placement on polished thronefield tile."
+    },
+    {
+      "path": "audio/sfx_piece_capture.wav",
+      "category": "sfx",
+      "title": "Piece Capture",
+      "duration_sec": 0.45,
+      "description": "Metallic blade clash followed by shattering crystal impact."
+    },
+    {
+      "path": "audio/sfx_check.wav",
+      "category": "sfx",
+      "title": "Check Alarm",
+      "duration_sec": 0.65,
+      "description": "Sharp brass stinger signaling immediate monarchical danger."
+    },
+    {
+      "path": "audio/sfx_checkmate.wav",
+      "category": "sfx",
+      "title": "Checkmate Victory",
+      "duration_sec": 1.5,
+      "description": "Triumphant multi-voice brass fanfare resolving the battle."
+    },
+    {
+      "path": "audio/sfx_spell_cast.wav",
+      "category": "sfx",
+      "title": "Sovereign Spell Cast",
+      "duration_sec": 0.8,
+      "description": "Shimmering arcane resonance and swirling energy burst."
+    },
+    {
+      "path": "audio/sfx_chrono_pulse.wav",
+      "category": "sfx",
+      "title": "Chrono-Pulse Rewind",
+      "duration_sec": 0.7,
+      "description": "Clockwork tick followed by reverse frequency time-dilation sweep."
+    },
+    {
+      "path": "audio/sfx_armor_break.wav",
+      "category": "sfx",
+      "title": "Armor Shatter (Cut-In)",
+      "duration_sec": 0.9,
+      "description": "Heavy plate fracture impact and crystalline sonic burst."
+    },
+    {
+      "path": "audio/sfx_button_click.wav",
+      "category": "sfx",
+      "title": "UI Selection Click",
+      "duration_sec": 0.15,
+      "description": "Clean, tactile parchment/crystal interface tap."
+    }
+  ]
+}
