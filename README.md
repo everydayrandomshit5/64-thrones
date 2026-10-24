@@ -111,8 +111,6 @@ In the spirit of complete transparency:
 - **Creator & Project Lead**: **random guy**
   - GitHub: [@everydayrandomshit5](https://github.com/everydayrandomshit5)
   - Instagram: [@everyday_randomshit](https://www.instagram.com/everyday_randomshit/)
-- **Conceptual Heritage & Lore**: 
-  - Derived from and inspired by the world of [Croissant_Sama](https://github.com/everydayrandomshit5/croissant-sama) and [En Croissant](https://github.com/franciscoBSalgueiro/en-croissant) by Francisco Salgueiro and contributors.
 - **Ren'Py Visual Novel Engine**:
   - Developed by **Tom Rothamel (PyTom)** and the Ren'Py contributors ([renpy.org](https://www.renpy.org/)).
   - Licensed under the MIT License.

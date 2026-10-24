@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Initialization
 ################################################################################
 
@@ -586,7 +586,7 @@ screen about():
                 color "#FFE899"
                 bold True
                 size 22
-            text _("• Created by {b}random guy{/b}\n• GitHub: {a=https://github.com/everydayrandomshit5}everydayrandomshit5{/a}\n• Instagram: {a=https://www.instagram.com/everyday_randomshit/}@everyday_randomshit{/a}\n• Conceptual Heritage: Inspired by {i}Croissant_Sama{/i} and {i}En Croissant{/i} (Francisco Salgueiro and contributors)"):
+            text _("• Created by {b}random guy{/b}\n• GitHub: {a=https://github.com/everydayrandomshit5}everydayrandomshit5{/a}\n• Instagram: {a=https://www.instagram.com/everyday_randomshit/}@everyday_randomshit{/a}"):
                 size 16
                 color "#D8D0E8"
 
