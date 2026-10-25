@@ -159,47 +159,25 @@ default banter_db = {}
 
 
 
-## Helper function to load JSON chapter data
-
+## Helper function to load JSON chapter data (Android APK & PC asset loader compatible)
 init python:
-
     def load_campaign_json():
-
-        p = renpy.loader.transfn("data/chapters.json")
-
-        with open(p, "r", encoding="utf-8") as f:
-
-            return json.load(f)
-
-
+        with renpy.loader.load("data/chapters.json") as f:
+            return json.loads(f.read().decode("utf-8"))
 
     def load_roster_json():
-
-        p = renpy.loader.transfn("data/characters.json")
-
-        with open(p, "r", encoding="utf-8") as f:
-
-            return json.load(f)["characters"]
-
-
+        with renpy.loader.load("data/characters.json") as f:
+            return json.loads(f.read().decode("utf-8"))["characters"]
 
     def load_banter_json():
-
-        p = renpy.loader.transfn("data/banter.json")
-
-        with open(p, "r", encoding="utf-8") as f:
-
-            return json.load(f)
+        with renpy.loader.load("data/banter.json") as f:
+            return json.loads(f.read().decode("utf-8"))
 
 
 
 ## ============================================================================
-
 ## MAIN ENTRY POINT
-
 ## ============================================================================
-
-
 
 label start:
 

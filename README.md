@@ -64,9 +64,11 @@ Across the shattered rift valley of Ashgate, the celestial Monoliths have awaken
 
 ### Pre-Built Standalone Releases
 Download ready-to-play packages directly from the [GitHub Releases](https://github.com/everydayrandomshit5/64-thrones/releases) page:
-- **Windows Standalone**: `64-thrones-sfwv2-1.0-win.zip` (extract and double-click `64-thrones-sfwv2.exe`)
-- **Linux Standalone**: `64-thrones-sfwv2-1.0-linux.tar.bz2`
-- **Universal PC**: `64-thrones-sfwv2-1.0-pc.zip`
+- **Android APK**: 64-thrones-sfwv2-1.0-android.apk (install directly on Android phones and tablets)
+- **Windows Standalone**: 64-thrones-sfwv2-1.0-win.zip (extract and double-click 64-thrones-sfwv2.exe)
+- **macOS Standalone**: 64-thrones-sfwv2-1.0-mac.zip
+- **Linux Standalone**: 64-thrones-sfwv2-1.0-linux.tar.bz2
+- **Universal PC**: 64-thrones-sfwv2-1.0-pc.zip
 
 ### Running from Source
 To run or develop the game from source:

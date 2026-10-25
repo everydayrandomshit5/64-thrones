@@ -21,6 +21,20 @@ venv/
 # Build artifacts & releases (uploaded to GitHub Releases)
 dist/
 
+# Release signing keystores and private certificates
+*.keystore
+
+# Internal documents and specifications
+*.docx
+*.doc
+
+# Local development and build scripts
+build_android.bat
+
+# Engine local saves and caches
+saves/
+cache/
+
 # Logs and error dumps
 *.log
 errors.txt

@@ -208,12 +208,12 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ##
 ## Choice buttons are used in the in-game menus.
 
-define gui.choice_button_width = 1100
+define gui.choice_button_width = 1380
 define gui.choice_button_height = None
 define gui.choice_button_tile = False
-define gui.choice_button_borders = Borders(100, 5, 100, 5)
+define gui.choice_button_borders = Borders(60, 18, 60, 18)
 define gui.choice_button_text_font = gui.text_font
-define gui.choice_button_text_size = gui.text_size
+define gui.choice_button_text_size = 38
 define gui.choice_button_text_xalign = 0.5
 define gui.choice_button_text_idle_color = "#cccccc"
 define gui.choice_button_text_hover_color = "#ffffff"
@@ -249,7 +249,7 @@ define gui.file_slot_rows = 2
 
 ## The position of the left side of the navigation buttons, relative to the left
 ## side of the screen.
-define gui.navigation_xpos = 40
+define gui.navigation_xpos = 80
 
 ## The vertical position of the skip indicator.
 define gui.skip_ypos = 10
@@ -258,10 +258,10 @@ define gui.skip_ypos = 10
 define gui.notify_ypos = 45
 
 ## The spacing between menu choices.
-define gui.choice_spacing = 22
+define gui.choice_spacing = 26
 
 ## Buttons in the navigation section of the main and game menus.
-define gui.navigation_spacing = 4
+define gui.navigation_spacing = 24
 
 ## Controls the amount of spacing between preferences.
 define gui.pref_spacing = 10
@@ -413,25 +413,47 @@ define gui.language = "unicode"
 
 init python:
 
-    ## This increases the size of the quick buttons to make them easier to touch
-    ## on tablets and phones.
+    ## Touch & Mobile variant tuning for Android smartphones and tablets
     @gui.variant
     def touch():
 
         gui.quick_button_borders = Borders(40, 14, 40, 0)
+        gui.quick_button_text_size = 24
 
-    ## This changes the size and spacing of various GUI elements to ensure they
-    ## are easily visible on phones.
+        ## Main Menu & Navigation Buttons on Touch
+        gui.navigation_xpos = 90
+        gui.navigation_spacing = 28
+
+        ## Option / Choice Buttons on touch screens
+        gui.choice_button_width = 1420
+        gui.choice_button_borders = Borders(60, 22, 60, 22)
+        gui.choice_button_text_size = 42
+        gui.choice_spacing = 28
+
+        ## Preference & UI Menu Fonts
+        gui.text_size = 34
+        gui.name_text_size = 40
+        gui.notify_text_size = 28
+        gui.interface_text_size = 36
+        gui.button_text_size = 36
+        gui.label_text_size = 40
+        gui.pref_button_spacing = 20
+        gui.pref_spacing = 30
+
+    ## Small screen layout optimizations
     @gui.variant
     def small():
 
         ## Font sizes.
-        gui.text_size = 30
-        gui.name_text_size = 36
-        gui.notify_text_size = 25
+        gui.text_size = 34
+        gui.name_text_size = 40
+        gui.notify_text_size = 28
         gui.interface_text_size = 36
-        gui.button_text_size = 34
-        gui.label_text_size = 36
+        gui.button_text_size = 36
+        gui.label_text_size = 40
+        gui.choice_button_text_size = 42
+        gui.choice_button_borders = Borders(60, 22, 60, 22)
+        gui.choice_spacing = 28
 
         ## Adjust the location of the textbox.
         gui.textbox_height = 240
@@ -440,10 +462,33 @@ init python:
         gui.dialogue_width = 1100
 
         ## Change the size and spacing of items in the game menu.
-        gui.choice_button_width = 1240
+        gui.choice_button_width = 1420
 
-        gui.navigation_spacing = 20
-        gui.pref_button_spacing = 10
+        gui.navigation_xpos = 90
+        gui.navigation_spacing = 28
+        gui.pref_button_spacing = 20
+        gui.pref_spacing = 30
+
+    ## Android platform variant
+    @gui.variant
+    def android():
+
+        gui.navigation_xpos = 90
+        gui.navigation_spacing = 28
+
+        gui.choice_button_width = 1420
+        gui.choice_button_borders = Borders(60, 22, 60, 22)
+        gui.choice_button_text_size = 42
+        gui.choice_spacing = 28
+
+        gui.text_size = 34
+        gui.name_text_size = 40
+        gui.notify_text_size = 28
+        gui.interface_text_size = 36
+        gui.button_text_size = 36
+        gui.label_text_size = 40
+        gui.pref_button_spacing = 20
+        gui.pref_spacing = 30
 
         gui.history_height = 190
         gui.history_text_width = 690

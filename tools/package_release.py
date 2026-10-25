@@ -1,7 +1,6 @@
 """
-package_release.py - Automated Release Packaging Pipeline for 64-Thrones: High-Glamour Edition (v3.2).
-Part of Phase 7 of 64-Thrones SFW v2.
-Complies with Section 1.1, Section 7.1, and Phase 7 of the Master Build Bible.
+package_release.py - Automated Release Packaging Pipeline for 64-Thrones: High-Glamour Edition.
+Runs strict production asset audit and pytest suite before packaging.
 """
 
 import hashlib
@@ -16,7 +15,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 GAME_DIR = ROOT_DIR / "game"
 DIST_DIR = ROOT_DIR / "dist"
 TOOLS_DIR = ROOT_DIR / "tools"
-RENPY_SDK = Path("D:/antigravity/renpy-8.3.4-sdk")
+RENPY_SDK = Path(os.environ.get("RENPY_SDK", "D:/antigravity/renpy-8.3.4-sdk"))
 RENPY_PYTHON = RENPY_SDK / "lib" / "py3-windows-x86_64" / "python.exe"
 
 APP_NAME = "64-thrones-sfwv2"
@@ -28,7 +27,7 @@ LINUX_PKG_NAME = f"{APP_NAME}-{VERSION}-linux"
 def run_pre_release_gates():
     """Runs strict production asset audit and pytest suite before packaging."""
     print("===========================================================")
-    print("[PHASE 7] PRE-RELEASE GATE CHECK")
+    print("[RELEASE PIPELINE] PRE-RELEASE GATE CHECK")
     print("===========================================================")
 
     # 1. Strict Asset Audit Gate
@@ -151,7 +150,7 @@ def main():
     compute_checksums()
 
     print("\n===========================================================")
-    print("[PHASE 7 COMPLETE] Native standalone release distributions built!")
+    print("[RELEASE PIPELINE COMPLETE] Native standalone release distributions built!")
     print("===========================================================")
 
 

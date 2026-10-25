@@ -228,8 +228,17 @@ style choice_vbox:
 style choice_button is default:
     properties gui.button_properties("choice_button")
 
+style choice_button:
+    variant "touch"
+    ypadding 18
+
 style choice_button_text is default:
     properties gui.text_properties("choice_button")
+    size 38
+
+style choice_button_text:
+    variant "touch"
+    size 42
 
 
 ## Quick Menu screen ###########################################################
@@ -337,10 +346,16 @@ style navigation_button_text is gui_button_text
 style navigation_button:
     size_group "navigation"
     properties gui.button_properties("navigation_button")
+    ypadding 10
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
     outlines [(2, "#100a18", 1, 1)]
+    size 40
+
+style navigation_button_text:
+    variant "touch"
+    size 44
 
 
 ## Main Menu screen ############################################################
@@ -850,12 +865,23 @@ style radio_label is pref_label
 style radio_label_text is pref_label_text
 style radio_button is gui_button
 style radio_button_text is gui_button_text
+style radio_button_text:
+    size 32
+style radio_button_text:
+    variant "touch"
+    size 36
+
 style radio_vbox is pref_vbox
 
 style check_label is pref_label
 style check_label_text is pref_label_text
 style check_button is gui_button
 style check_button_text is gui_button_text
+style check_button_text:
+    size 32
+style check_button_text:
+    variant "touch"
+    size 36
 style check_vbox is pref_vbox
 
 style slider_label is pref_label

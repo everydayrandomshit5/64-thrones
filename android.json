@@ -1,0 +1,23 @@
+{
+    "expansion": false,
+    "google_play_key": null,
+    "google_play_salt": null,
+    "heap_size": "3",
+    "icon_name": "64-Thrones",
+    "include_pil": false,
+    "include_sqlite": false,
+    "layout": null,
+    "name": "64-Thrones: High-Glamour Edition",
+    "numeric_version": 1,
+    "orientation": "sensorLandscape",
+    "package": "com.everydayrandomshit.thrones64",
+    "permissions": [
+        "VIBRATE"
+    ],
+    "source": false,
+    "store": "none",
+    "update_always": true,
+    "update_icons": true,
+    "update_keystores": true,
+    "version": "1.0"
+}

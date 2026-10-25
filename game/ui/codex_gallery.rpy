@@ -50,15 +50,13 @@ init python:
         global codex_state
         if codex_state is not None:
             return
-        roster_path = renpy.loader.transfn("data/characters.json")
+        with renpy.loader.load("data/characters.json") as f:
+            r_data = json.loads(f.read().decode("utf-8")).get("characters", [])
         try:
-            manifest_path = renpy.loader.transfn("data/art_manifest.json")
+            with renpy.loader.load("data/art_manifest.json") as f:
+                m_data = json.loads(f.read().decode("utf-8"))
         except Exception:
-            manifest_path = renpy.loader.transfn("../tools/art_manifest.json")
-        with open(roster_path, "r", encoding="utf-8") as f:
-            r_data = json.load(f).get("characters", [])
-        with open(manifest_path, "r", encoding="utf-8") as f:
-            m_data = json.load(f)
+            m_data = {}
         codex_state = CodexUI(r_data, m_data)
 
 ## ============================================================================
